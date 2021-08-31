@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>responsive sidebar menu</title>
+		<link rel="stylesheet" type="text/css" href="./fontawesome/css/all.css"/>
+	
+		<link rel="stylesheet" type="text/css" href="./css/responsivesidebarmenu1.css"/>
+		<style type="text/css">
+				
+		</style>
+	</head>
+	
+	<body>
+		<nav class="navmenu">
+			<ul>
+				<li>
+					<a href="javascrip:void(0);">
+						<span class="icon">
+							<i class="fas fa-home"></i>
+						</span>
+						<span class="title">
+							home
+						</span>
+					</a>
+				</li>
+				
+				<li>
+					<a href="javascrip:void(0);">
+						<span class="icon">
+							<i class="fas fa-user-circle"></i>
+						</span>
+						<span class="title">
+							profile
+						</span>
+					</a>
+				</li>
+				
+				<li>
+					<a href="javascrip:void(0);">
+						<span class="icon">
+							<i class="fas fa-comment-dots"></i>
+						</span>
+						<span class="title">
+							messages
+						</span>
+					</a>
+				</li>
+				
+				<li>
+					<a href="javascrip:void(0);">
+						<span class="icon">
+							<i class="fas fa-info-circle"></i>
+						</span>
+						<span class="title">
+							help
+						</span>
+					</a>
+				</li>
+				
+				<li>
+					<a href="javascrip:void(0);">
+						<span class="icon">
+							<i class="fas fa-cog"></i>
+						</span>
+						<span class="title">
+							seeting
+						</span>
+					</a>
+				</li>
+				
+				<li>
+					<a href="javascrip:void(0);">
+						<span class="icon">
+							<i class="fas fa-unlock"></i>
+						</span>
+						<span class="title">
+							password
+						</span>
+					</a>
+				</li>
+				
+				<li>
+					<a href="javascrip:void(0);">
+						<span class="icon">
+							<i class="fas fa-sign-out-alt"></i>
+						</span>
+						<span class="title" style="white-space: nowrap">
+							sign out
+						</span>
+					</a>
+				</li>
+				
+				
+			</ul>
+			
+		</nav>
+		<div class="toggle" onclick="toggleMenu()"> </div>
+		<script type="text/javascript">
+			function toggleMenu(){
+				let navigation=document.querySelector('.navmenu');
+				navigation.classList.toggle('active');
+				let toggle=document.querySelector('.toggle');
+				toggle.classList.toggle('active')
+			}
+		</script>
+	</body>
+</html>

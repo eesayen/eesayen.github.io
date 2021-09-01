@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Personal Blog Web development - Ethan Yen</title>
+    <style>
+        /*初始化默认效果*/
+        html, *, ul, li, button, input {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            list-style: none;
+            border: none;
+        }
+
+        a {
+            color: #333333;
+            text-decoration: none;
+        }
+
+        html {
+            font-size: 10px;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        #ifr {
+            width: 100%;
+        }
+
+        #main-container {
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        #main-container #left-side-menu {
+            flex: 0 0 20%;
+        }
+
+        #main-container #left-side-menu #menu-fixed {
+            position: fixed;
+            min-height: 100vh;
+            width: 20%;
+        }
+
+        #left-side-menu #side-menu-profile {
+            min-height: 20vh;
+            width: 100%;
+        }
+
+        #left-side-menu #menu {
+
+        }
+
+        #menu > ul {
+        }
+
+        #menu > ul > li {
+            text-align: left;
+            margin: 2rem;
+            /*background: yellow;*/
+        }
+
+        #menu > ul > li input[name='menu-a-now'] {
+            display: none;
+        }
+
+        #menu > ul > li > a > label {
+            display: block;
+            cursor: pointer;
+        }
+
+        #menu > ul > li > input:checked + a > label {
+            color: darkcyan;
+        }
+
+        #menu > ul > li > a {
+            font-size: 2rem;
+            display: block;
+
+        }
+
+        #main-container #main-content-container {
+            flex: 1 1 80%;
+            display: flex;
+
+        }
+
+        #main-container #main-content-container #main-content {
+            flex: 1 1 60%;
+            margin: auto;
+        }
+
+        #main-container #main-content-container #content-top-nav {
+            width: 100%;
+
+            min-height: 10rem;
+            position: relative;
+        }
+
+        #main-container #main-content-container #content-top-nav .content-tittle {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+        }
+
+        #main-container #main-content-container #content-top-nav .content-tittle > h2 {
+            font-size: 3rem;
+        }
+    </style>
+</head>
+
+<body>
+
+<!--<form action="" enctype="multipart/form-data" id="fileUpload" method="post">
+    <input id="fileInput" type="file">
+    <button id="fileSubmit">submit</button>
+</form>-->
+
+<div class="files-form">
+
+    <form action="" id="fileUpload">
+        <input id="fileInput" type="file">
+        <button id="fileSubmit">submit</button>
+    </form>
+</div>
+<div id="main-container">
+
+    <div id="left-side-menu">
+        <div id="menu-fixed">
+            <div id="side-menu-profile">
+
+            </div>
+            <div id="menu">
+                <ul>
+                    <!--<li>
+                        <input id="c1" name="menu-a-now" type="radio">
+                        <a href="./example.html" target="content-iframe"><label for="c1">example.html</label></a>
+                    </li>
+                    <li>
+                        <input id="c2" name="menu-a-now" type="radio">
+                        <a href="./object.html" target="content-iframe"><label for="c2">object.html</label></a>
+                    </li>-->
+                </ul>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <div id="main-content-container">
+        <div id="main-content">
+            <div id="content-top-nav">
+                <div class="content-tittle">
+                    <h2></h2>
+                </div>
+            </div>
+            <iframe frameborder="0" id="ifr" name="content-iframe" scrolling="no" src="./object.html"></iframe>
+
+        </div>
+
+    </div>
+</div>
+<script>
+  // console.dir(ifr);
+  ifr.onload = function () {
+    //
+    //
+    // console.log(ifr.contentDocument.body.clientHeight);
+    // console.log(ifr.contentDocument.body.scrollHeight);
+    // console.dir(ifr);
+    ifr.height = ifr.contentDocument.body.scrollHeight;
+    // ifr.height=ifr.contentWindow.document.body.scrollHeight;
+    // console.dir(ifr.contentWindow);
+    document.querySelector('#content-top-nav>.content-tittle>h2').textContent = ifr.contentDocument.head.getElementsByTagName('title')[0].innerHTML;
+    // console.dir(ifr.contentDocument.head.getElementsByTagName('title')[0].innerHTML);
+  };
+  //获取文件
+  /*  fileUpload.onsubmit = (evt) => {
+      evt.preventDefault();
+      let files = fileInput.files[0];
+      let filesReader = new FileReader();
+      console.log('files---', files);
+      filesReader.readAsText(files);
+      filesReader.onload = () => {
+        console.log(filesReader.result);
+        console.log(111);
+      };
+      filesReader.error = (e) => {
+        console.log(e);
+      };
+      filesReader.onprogress = (evt) => {
+        if (evt.lengthComputable) {
+          console.log(evt.loaded, '---', evt.total);
+        }
+      };
+    };*/
+  fileUpload.addEventListener('submit', (evt) => {
+    document.querySelector('.files-form').style.display = 'none';
+    evt.preventDefault();
+    let files = fileInput.files[0];
+    let filesReader = new FileReader();
+    // console.log('files---', files);
+    filesReader.readAsText(files);
+    filesReader.onload = () => {
+      //文件信息展示
+      let arrText = filesReader.result.split('\r\n');
+      arrText = arrText.filter(item => {
+        return !item.includes('index.html');
+      });
+      console.log(arrText);
+      let liLength = document.querySelectorAll('#menu ul>li').length;
+      for (const item of arrText) {
+        let newLiHtml = `<input id="c${++liLength}" name="menu-a-now" type="radio">
+                        <a href="./${item}" target="content-iframe"><label for="c${liLength}">${item}</label></a>`;
+        let newLi = document.createElement('li');
+        newLi.innerHTML = newLiHtml;
+        document.querySelector('#menu>ul').appendChild(newLi);
+      }
+      //原始加点击事件
+      //获取A标签Src高边ifr的src
+      let aList = document.querySelectorAll('#menu ul>Li a');
+      // console.log(aList);
+      for (const aListElement of aList) {
+        aListElement.addEventListener('click', function (evt) {
+          /*  console.log(evt.target);
+            console.log(evt.currentTarget);
+            console.log(evt.currentTarget.getAttribute('href'));
+            ifr.src = evt.target.getAttribute('href');
+            ifr.src = './fileReader.html';*/
+          console.log(evt.currentTarget.getAttribute('href'));
+          ifr.src = evt.currentTarget.getAttribute('href');
+        }, true);
+      }
+    };
+    filesReader.error = (e) => {
+      console.log(e);
+    };
+    filesReader.onprogress = (evt) => {
+      if (evt.lengthComputable) {
+        // console.log(evt.loaded, '---', evt.total);
+      }
+    };
+  });
+
+</script>
+</body>
+</html>

@@ -1,6 +1,0 @@
-example.html
-index.html
-this reference.html
-object.html
-object property enumerable.html
-deepCopy shallowCopy.html

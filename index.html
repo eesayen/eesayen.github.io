@@ -1,418 +1,380 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="./css/all.css">
-    <link rel="stylesheet" type="text/css" href="./css/nav.css">
+    <link rel="stylesheet" type="text/css" href="./nav.css" />
+    <link rel="stylesheet" type="text/css" href="./all.css" />
     <style>
-        ul, li, body, html {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      ul,
+      li,
+      body,
+      html {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            min-width: 100%;
-            min-height: 100vh;
-            position: relative;
-            display: flex;
-        }
+      body {
+        min-width: 100%;
+        min-height: 100vh;
+        position: relative;
+        display: flex;
+      }
 
-        #nav {
-            padding: .3rem;
-            width: 20%;
-            min-width: 200px;
-            max-width: 500px;
-            min-height: 100vh;
-            transition: width 0.05S ease-out, transform 0.6S ease-out;
-            position: fixed;
-            /*overflow: hidden;*/
-            z-index: 999;
-            background-color: #F7F6F3;
-        }
+      #nav {
+        padding: 0.3rem;
+        width: 20%;
+        min-width: 200px;
+        max-width: 500px;
+        min-height: 100vh;
+        transition: width 0.05s ease-out, transform 0.6s ease-out;
+        position: fixed;
+        /*overflow: hidden;*/
+        z-index: 999;
+        background-color: #f7f6f3;
+      }
 
-        #nav-cover {
-            position: relative;
-            min-width: 200px;
-            max-width: 500px;
-            transition: all 0.6S ease-out;
+      #nav-cover {
+        position: relative;
+        min-width: 200px;
+        max-width: 500px;
+        transition: all 0.6s ease-out;
+      }
 
-        }
+      #article {
+        width: 100%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 2rem;
+        margin-bottom: 3rem;
+      }
 
-        #article {
-            width: 100%;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            margin-top: 2rem;
-            margin-bottom: 3rem;
+      #article .top {
+        width: 100%;
+        height: 300px;
+        display: flex;
+        justify-content: center;
+      }
+      #article .top .random-bgi {
+        width: 80%;
+        height: 300px;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        overflow: hidden;
+      }
+      #article .top .random-bgi img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        object-position: center center;
+      }
 
-        }
+      #article section {
+        width: 100%;
+      }
 
-        #article .top {
-            width: 100%;
-            height: 300px;
-            display: flex;
-            justify-content: center;
-        }
-        #article .top .random-bgi{
-            width: 80%;
-            height: 300px;
-            border-top-left-radius: 6px;
-            border-top-right-radius: 6px;
-            overflow: hidden;
-        }
-        #article .top .random-bgi img{
-            width: 100%;
-            height: 300px;
-            object-fit:cover;
-            object-position: center center;
-        }
+      #ifrCtn {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
 
-        #article section {
-            width: 100%;
-        }
-
-        #ifrCtn {
-
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            width: 100%;
-        }
-
-        #ifrCtn .ifr {
-            width: 80%;
-
-        }
-        .a-linked{
-            color: #4183C4!important;
-        }
-
+      #ifrCtn .ifr {
+        width: 80%;
+      }
+      .a-linked {
+        color: #4183c4 !important;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-<nav id="nav">
-    <div id="drag"></div>
-    <div id="button"></div>
-</nav>
-<div id="nav-cover">
-</div>
-<article id="article">
-    <div class="top">
+  <body>
+    <nav id="nav">
+      <div id="drag"></div>
+      <div id="button"></div>
+    </nav>
+    <div id="nav-cover"></div>
+    <article id="article">
+      <div class="top">
         <div class="random-bgi" id="bgi">
-            <img src="./ifrdefault.jpg" alt="">
+          <img src="https://i.picsum.photos/id/870/1600/900.jpg" alt="" />
         </div>
-    </div>
-    <section>
+      </div>
+      <section>
         <div id="ifrCtn">
-            <iframe frameborder="0" id="ifr" class="ifr" name='ifr-content' scrolling="no" src=""></iframe>
+          <iframe
+            frameborder="0"
+            id="ifr"
+            class="ifr"
+            name="ifr-content"
+            scrolling="no"
+            src=""
+          ></iframe>
         </div>
-    </section>
-</article>
-<script>
-
-
-
-  let req = new XMLHttpRequest();
-  req.onload = function (e) {
-    let xhr = e.target;
-    let data = xhr.responseText;
-    let dataArrLineAll = data.trim().split('\r\n').map((v) => {
-      let arr = v.split('>>>').map((v) => {
-        return v.trim();
-      });
-      arr.push(arr[0]);
-      arr.shift();
-      return arr;
-    });
-    let dataArrLine = dataArrLineAll.filter((v, k) => {
-      return v.length > 0 && v[0] !== '';
-    });
-    //-----------------------------------------------
-    let ulRoot = document.createElement('ul');
-    ulRoot.id = 'ulRoot';
-    let index = document.createElement('li');
-    index.id = 'index';
-    index.innerHTML = `<a class="alink" href="index.html">首页</a>`;
-    ulRoot.appendChild(index);
-    let maxLen = 0;
-    dataArrLine.forEach((v) => {
-      maxLen = maxLen > v.length ? maxLen : v.length;
-    });
-    //-----------------------------
-    for (let i = 0; i < maxLen; i++) {
-      if (i === 0) {
-        dataArrLine.forEach((v) => {//
-          if (ulRoot.querySelector(`li[data-a='${v[0]}']`) === null) {
-            if (v[0].indexOf('.html') === -1) {
-              let li = document.createElement('li');
-              li.setAttribute('data-a', v[0]);
-              li.innerHTML = v[0].indexOf('.html') === -1 ? v[0] : ` <a href="">${v[0]}</a>`;
-              v[0].indexOf('.html') === -1 ? li.appendChild(document.createElement('ul')) : null;
-              ulRoot.appendChild(li);
-            }
-          }
-        });
-      } else {
-        dataArrLine.forEach((v) => {
-          if (v[i] !== undefined) {
-            if (ulRoot.querySelector(`li[data-a='${v[i]}']`) === null) {
-              let li = document.createElement('li');
-              li.setAttribute('data-a', v[i]);
-              // console.log(v[i].indexOf('.html')!==-1)
-              if (v[i].indexOf('.html') !== -1) {
-                li.innerHTML = ` <a class="alink"  href="${v[i]}" title="${v[i]}'">${v[i]}</a>`;
-                li.classList.add(`pageLink`);
-              } else {
-                li.innerHTML = v[i];
+      </section>
+    </article>
+    <script>
+      let req = new XMLHttpRequest()
+      req.onload = function (e) {
+        let xhr = e.target
+        let data = xhr.responseText
+        let dataArrLineAll = data
+          .trim()
+          .split('\r\n')
+          .map(v => {
+            let arr = v.split('>>>').map(v => {
+              return v.trim()
+            })
+            arr.push(arr[0])
+            arr.shift()
+            return arr
+          })
+        let dataArrLine = dataArrLineAll.filter((v, k) => {
+          return v.length > 0 && v[0] !== ''
+        })
+        //-----------------------------------------------
+        let ulRoot = document.createElement('ul')
+        ulRoot.id = 'ulRoot'
+        let index = document.createElement('li')
+        index.id = 'index'
+        index.innerHTML = `<a class="alink" href="index.html">首页</a>`
+        ulRoot.appendChild(index)
+        let maxLen = 0
+        dataArrLine.forEach(v => {
+          maxLen = maxLen > v.length ? maxLen : v.length
+        })
+        //-----------------------------
+        for (let i = 0; i < maxLen; i++) {
+          if (i === 0) {
+            dataArrLine.forEach(v => {
+              //
+              if (ulRoot.querySelector(`li[data-a='${v[0]}']`) === null) {
+                if (v[0].indexOf('.html') === -1) {
+                  let li = document.createElement('li')
+                  li.setAttribute('data-a', v[0])
+                  li.innerHTML =
+                    v[0].indexOf('.html') === -1
+                      ? v[0]
+                      : ` <a href="">${v[0]}</a>`
+                  v[0].indexOf('.html') === -1
+                    ? li.appendChild(document.createElement('ul'))
+                    : null
+                  ulRoot.appendChild(li)
+                }
               }
-              li.classList.add(`lv${i}`);
-              v[i].indexOf('.html') === -1 ? li.appendChild(document.createElement('ul')) : null;
-              ulRoot.querySelector(`li[data-a='${v[i - 1]}'] > ul`).appendChild(li);
-            }
+            })
+          } else {
+            dataArrLine.forEach(v => {
+              if (v[i] !== undefined) {
+                if (ulRoot.querySelector(`li[data-a='${v[i]}']`) === null) {
+                  let li = document.createElement('li')
+                  li.setAttribute('data-a', v[i])
+                  // console.log(v[i].indexOf('.html')!==-1)
+                  if (v[i].indexOf('.html') !== -1) {
+                    li.innerHTML = ` <a class="alink"  href="${v[i]}" title="${v[i]}'">${v[i]}</a>`
+                    li.classList.add(`pageLink`)
+                  } else {
+                    li.innerHTML = v[i]
+                  }
+                  li.classList.add(`lv${i}`)
+                  v[i].indexOf('.html') === -1
+                    ? li.appendChild(document.createElement('ul'))
+                    : null
+                  ulRoot
+                    .querySelector(`li[data-a='${v[i - 1]}'] > ul`)
+                    .appendChild(li)
+                }
+              }
+            })
           }
-        });
-      }
-    }
-    nav.appendChild(ulRoot);
-    //----------------------------------------------menu li下ul展开
-    document.querySelectorAll('li').forEach((v) => {
-      v.addEventListener('click', (evt) => {
-        evt.stopPropagation();
-        try {
-          evt.target.querySelector('ul').classList.toggle('show');
-        } catch (e) {
-          console.log('当前目录下为空');
         }
-      });
-      v.addEventListener('click', (evt) => {
-        if (v.querySelectorAll('ul').length !== 0) {
-          v.classList.toggle('showed');
+        nav.appendChild(ulRoot)
+        //----------------------------------------------menu li下ul展开
+        document.querySelectorAll('li').forEach(v => {
+          v.addEventListener('click', evt => {
+            evt.stopPropagation()
+            try {
+              evt.target.querySelector('ul').classList.toggle('show')
+            } catch (e) {
+              console.log('当前目录下为空')
+            }
+          })
+          v.addEventListener('click', evt => {
+            if (v.querySelectorAll('ul').length !== 0) {
+              v.classList.toggle('showed')
+            }
+            if (evt.currentTarget.children[0] instanceof HTMLAnchorElement) {
+              evt.currentTarget.children[0].click()
+            }
+          })
+          v.addEventListener('mouseover', evt => {
+            evt.stopPropagation()
+            v.classList.toggle('li-hover')
+          })
+          v.addEventListener('mouseout', evt => {
+            evt.stopPropagation()
+            v.classList.toggle('li-hover')
+          })
+        })
+        document
+          .querySelector('#ulRoot')
+          .querySelectorAll('ul')
+          .forEach(v => {
+            v.classList.toggle('show')
+          })
+        //--------------------------------------------------------
+        let menu = document.querySelector('#ulRoot')
+        menu.querySelectorAll('li').forEach(value => {
+          if (value.querySelectorAll('ul').length !== 0) {
+            value.classList.add('show-mark')
+          }
+        })
+        for (const item of document.querySelectorAll('.alink')) {
+          item.addEventListener('click', e => {
+            e.preventDefault()
+            let href = e.currentTarget.getAttribute('href')
+            let hrefHash =
+              '#' + href.replace(/^\.\//, '').replace(/\.html$/i, '')
+            addClassLinked('.alink', 'href', href, 'a-linked')
+            location.href = location.href.includes('#')
+              ? location.href.replace(/#.*/gi, '') + hrefHash
+              : location.href + hrefHash
+          })
         }
-        if (evt.currentTarget.children[0] instanceof HTMLAnchorElement) {
-          evt.currentTarget.children[0].click();
-        }
-      });
-      v.addEventListener('mouseover', (evt) => {
-        evt.stopPropagation();
-        v.classList.toggle('li-hover');
-      });
-      v.addEventListener('mouseout', (evt) => {
-        evt.stopPropagation();
-        v.classList.toggle('li-hover');
-      });
-    });
-    document.querySelector('#ulRoot').querySelectorAll('ul').forEach((v) => {
-      v.classList.toggle('show');
-    });
-    //--------------------------------------------------------
-    let menu = document.querySelector('#ulRoot');
-    menu.querySelectorAll('li').forEach(value => {
-      if (value.querySelectorAll('ul').length !== 0) {
-        value.classList.add('show-mark');
-      }
-    });
-    for (const item of document.querySelectorAll('.alink')) {
-      item.addEventListener('click', (e) => {
-        e.preventDefault();
-        let href = e.currentTarget.getAttribute('href');
-        let hrefHash = '#' + href.replace(/^\.\//, '').replace(/\.html$/i, '');
-        addClassLinked('.alink', 'href', href, 'a-linked');
-        location.href = location.href.includes('#') ? location.href.replace(/#.*/ig, '') + hrefHash : location.href + hrefHash;
-      });
-    }
-    //---
-    window.onhashchange = mainReload;
-    mainReload();
+        //---
+        window.onhashchange = mainReload
+        mainReload()
 
-    function mainReload () {
-      if (location.href.includes('#')) {
-        let subPage = location.hash.replace('#', '');
-        replaceIframe(`./${subPage}.html`);
-        addClassLinked('.alink', 'href', `${decodeURI(subPage)}.html`, 'a-linked');
-        console.log(decodeURI(subPage),'<---includes #');
-      } else {
-        replaceIframe('./homepage.html');
-      }
-    }
-    function showNavUl (aTagDom) {
-
-        if (aTagDom instanceof HTMLLIElement){
-          console.log('a-->TagDom instanceof HTMLLIElement--->',aTagDom);
-            if (aTagDom.classList.contains('lv1')){
-              console.log("lv1");
+        function mainReload () {
+          if (location.href.includes('#')) {
+            let subPage = location.hash.replace('#', '')
+            replaceIframe(`./${subPage}.html`)
+            addClassLinked(
+              '.alink',
+              'href',
+              `${decodeURI(subPage)}.html`,
+              'a-linked'
+            )
+            console.log(decodeURI(subPage), '<---includes #')
+          } else {
+            replaceIframe('./homepage.html')
+          }
+        }
+        function showNavUl (aTagDom) {
+          if (aTagDom instanceof HTMLLIElement) {
+            console.log('a-->TagDom instanceof HTMLLIElement--->', aTagDom)
+            if (aTagDom.classList.contains('lv1')) {
+              console.log('lv1')
               //lv1上级
               aTagDom.parentNode.parentNode.classList.add('showed')
               aTagDom.parentNode.classList.remove('show')
               //lv1本身下一级
               aTagDom.classList.add('showed')
-              aTagDom.querySelector('ul').classList.remove('show');
-            }else {
-              console.log('TagDom instanceof HTMLLIElement mot include lv1');
-              if (aTagDom.querySelector('ul')!==null){
-                console.log('include child ul');
+              aTagDom.querySelector('ul').classList.remove('show')
+            } else {
+              console.log('TagDom instanceof HTMLLIElement mot include lv1')
+              if (aTagDom.querySelector('ul') !== null) {
+                console.log('include child ul')
                 aTagDom.classList.add('showed')
-                aTagDom.querySelector('ul').classList.remove('show');
+                aTagDom.querySelector('ul').classList.remove('show')
                 showNavUl(aTagDom.parentNode)
-              }else {
-                console.log('this node not include child ul');
+              } else {
+                console.log('this node not include child ul')
                 showNavUl(aTagDom.parentNode)
               }
             }
-
-        }else {
-          showNavUl(aTagDom.parentNode)
+          } else {
+            showNavUl(aTagDom.parentNode)
+          }
         }
-    }
-    function addClassLinked (tagSearch, attr, valueCondition, className) {
-      // console.log('addClassLinked');
-      // console.log(tagSearch);
-      // console.log(document.querySelectorAll(tagSearch));
-      for (const item of document.querySelectorAll(tagSearch)) {
-         item.classList.remove(className);
-         if (item.getAttribute(attr) === valueCondition) {
-           item.classList.add(className);
-           //show-ul-for-load
-            try {
-              showNavUl(item)
-            }catch (e){
-              console.log(e);
+        function addClassLinked (tagSearch, attr, valueCondition, className) {
+          for (const item of document.querySelectorAll(tagSearch)) {
+            item.classList.remove(className)
+            if (item.getAttribute(attr) === valueCondition) {
+              item.classList.add(className)
+              try {
+                showNavUl(item)
+              } catch (e) {
+                console.log(e)
+              }
             }
+          }
+        }
 
-         }
+        function replaceIframe (src) {
+          ifrCtn.innerHTML = ` <iframe frameborder="0"  id="ifr" class="ifr"  name='ifr-content' scrolling="no" src=${src} ></iframe>`
+          ifr.onload = function () {
+            ifr.height = ifr.contentDocument.body.scrollHeight
+          }
+          ifr.contentWindow.addEventListener('mouseup', e => {
+            mouseDown = false
+            drag.classList.remove('dragDown')
+            document.body.removeEventListener('mousemove', navWidthChange)
+          })
+          bgi.querySelector(
+            'img'
+          ).src = `https://i.picsum.photos/id/870/1600/900.jpg?${Math.random()}`
+        }
       }
-    }
+      req.open('GET', './test.txt')
+      req.send()
+      //----------------------------------------------------nav width drag
+      let drag = document.querySelector('#drag')
+      let nav = document.querySelector('#nav')
+      let navCover = document.querySelector('#nav-cover')
+      navCover.style.flex = `0 0 ${nav.clientWidth}px`
+      let mouseDown = false
 
-    function replaceIframe (src) {
-      ifrCtn.innerHTML = ` <iframe frameborder="0"  id="ifr" class="ifr"  name='ifr-content' scrolling="no" src=${src} ></iframe>`;
-      ifr.onload = function () {
-        ifr.height = ifr.contentDocument.body.scrollHeight;
-      };
-      ifr.contentWindow.addEventListener('mouseup', (e) => {
-        mouseDown = false;
-        drag.classList.remove('dragDown');
-        document.body.removeEventListener('mousemove', navWidthChange);
-      });
-      bgi.querySelector('img').src=`https://api.ixiaowai.cn/gqapi/gqapi.php?${Math.random()}`;
-    }
+      function navWidthChange (e) {
+        e.stopPropagation()
+        e.preventDefault()
+        if (mouseDown) {
+          nav.style.width = e.clientX + 'px'
+          navCover.style.flex = `0 0 ${e.clientX}px`
+          drag.classList.add('dragDown')
+        }
+      }
 
-  };
-  req.open('GET', './test.txt');
-  req.send();
-  //----------------------------------------------------nav width drag
-  let drag = document.querySelector('#drag');
-  let nav = document.querySelector('#nav');
-  let navCover = document.querySelector('#nav-cover');
-  navCover.style.flex = `0 0 ${nav.clientWidth}px`;
-  let mouseDown = false;
-
-  function navWidthChange (e) {
-    e.stopPropagation();
-    e.preventDefault();
-    if (mouseDown) {
-      // console.log(e.clientX);
-      nav.style.width = e.clientX + 'px';
-      navCover.style.flex = `0 0 ${e.clientX}px`;
-      drag.classList.add('dragDown');
-    }
-  }
-
-  drag.addEventListener('mouseout', (e) => {
-    drag.classList.remove('dragDown');
-  });
-  drag.addEventListener('mouseover', (e) => {
-    drag.classList.add('dragDown');
-  });
-  drag.addEventListener('mousedown', (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    document.body.addEventListener('mousemove', navWidthChange);
-    // ifr.contentWindow.addEventListener('mousemove', navWidthChange);
-    mouseDown = true;
-    // console.log('down--->', mouseDown);
-  });
-  window.addEventListener('mouseup', (e) => {
-    // console.log('up--->', mouseDown);
-    mouseDown = false;
-    mouseDown = false;
-    drag.classList.remove('dragDown');
-    document.body.removeEventListener('mousemove', navWidthChange);
-  });
-  ifr.contentWindow.addEventListener('mouseup', (e) => {
-    mouseDown = false;
-    drag.classList.remove('dragDown');
-    document.body.removeEventListener('mousemove', navWidthChange);
-  });
-  window.addEventListener('resize', (e) => {
-    // console.log(document.body.clientWidth);
-    nav.style.width = Number(document.body.clientWidth) * 0.2 + 'px';
-    navCover.style.flex = `0 0 ${Number(document.body.clientWidth) * 0.2}px`;
-  });
-  //--------------------------------------------------------------------bottom for nav show or hide
-  let displayBottom = document.querySelector('#button');
-  displayBottom.addEventListener('click', () => {
-    displayBottom.classList.toggle('active');
-    nav.classList.toggle('active');
-    navCover.classList.toggle('active');
-    // navCover.style.flex = `0 0 0px`;
-  });
-  //------------------------------------------------------------------iframe
-  //---------------------------------右侧宽度自适应
-  //--------------------------------------
- /* // window.onhashchange = mainReload;
-  window.addEventListener('hashchange',mainReload,{
-    once:true
-  })
-  // window.onload = mainReload;
-  window.addEventListener('load',mainReload,{
-    once:true
-  })
-  function mainReload () {
-    if (location.href.includes('#')) {
-      let subPage = location.hash.replace('#', '');
-      replaceIframe(`./${subPage}.html`);
-      addClassLinked('.alink', 'href', `./${decodeURI(subPage)}.html`, 'a-linked');
-      console.log(decodeURI(subPage),'<---includes #');
-    } else {
-      replaceIframe('./homepage.html');
-      addClassLinked('.alink', 'href', './homepage.html', 'a-linked');
-      console.log(decodeURI(subPage),'<---first load');
-    }
-  }
-
-  function addClassLinked (tagSearch, attr, valueCondition, className) {
-/!*    console.log('addClassLinked');
-    console.log(tagSearch);
-    console.log(document.querySelectorAll(tagSearch));*!/
-    for (const item of document.querySelectorAll(tagSearch)) {
-      /!* item.classList.remove(className);
-       if (item.getAttribute(attr) === valueCondition) {
-         item.classList.add(className);
-
-       }*!/
-      // console.log(item);
-    }
-  }
-
-  function replaceIframe (src) {
-    ifrCtn.innerHTML = ` <iframe frameborder="0"  id="ifr" class="ifr"  name='ifr-content' scrolling="no" src=${src} ></iframe>`;
-    ifr.onload = function () {
-      ifr.height = ifr.contentDocument.body.scrollHeight;
-    };
-    ifr.contentWindow.addEventListener('mouseup', (e) => {
-      mouseDown = false;
-      drag.classList.remove('dragDown');
-      document.body.removeEventListener('mousemove', navWidthChange);
-    });
-    bgi.querySelector('img').src=`https://api.ixiaowai.cn/gqapi/gqapi.php?${Math.random()}`;
-  }
-*/
-</script>
-</body>
+      drag.addEventListener('mouseout', e => {
+        drag.classList.remove('dragDown')
+      })
+      drag.addEventListener('mouseover', e => {
+        drag.classList.add('dragDown')
+      })
+      drag.addEventListener('mousedown', e => {
+        e.stopPropagation()
+        e.preventDefault()
+        document.body.addEventListener('mousemove', navWidthChange)
+        mouseDown = true
+      })
+      window.addEventListener('mouseup', e => {
+        mouseDown = false
+        mouseDown = false
+        drag.classList.remove('dragDown')
+        document.body.removeEventListener('mousemove', navWidthChange)
+      })
+      ifr.contentWindow.addEventListener('mouseup', e => {
+        mouseDown = false
+        drag.classList.remove('dragDown')
+        document.body.removeEventListener('mousemove', navWidthChange)
+      })
+      window.addEventListener('resize', e => {
+        nav.style.width = Number(document.body.clientWidth) * 0.2 + 'px'
+        navCover.style.flex = `0 0 ${Number(document.body.clientWidth) * 0.2}px`
+      })
+      //--------------------------------------------------------------------bottom for nav show or hide
+      let displayBottom = document.querySelector('#button')
+      displayBottom.addEventListener('click', () => {
+        displayBottom.classList.toggle('active')
+        nav.classList.toggle('active')
+        navCover.classList.toggle('active')
+      })
+    </script>
+  </body>
 </html>

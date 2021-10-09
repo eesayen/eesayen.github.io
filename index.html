@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="./nav.css" />
-    <link rel="stylesheet" type="text/css" href="./all.css" />
+<link rel="stylesheet" type="text/css" href="./css/nav.css" />
+<link rel="stylesheet" type="text/css" href="./css/all.css" />
+
     <style>
       ul,
       li,
@@ -322,7 +323,8 @@
           ).src = `https://i.picsum.photos/id/870/1600/900.jpg?${Math.random()}`
         }
       }
-      req.open('GET', './test.txt')
+req.open('GET', './contents.txt')
+
       req.send()
       //----------------------------------------------------nav width drag
       let drag = document.querySelector('#drag')

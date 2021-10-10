@@ -29,10 +29,12 @@
         width: 20%;
         min-width: 200px;
         max-width: 500px;
-        min-height: 100vh;
+height: 100vh;
+
         transition: width 0.05s ease-out, transform 0.6s ease-out;
         position: fixed;
-        /*overflow: hidden;*/
+/* overflow: scroll; *//* overflow-y: auto; overflow-x: hidden!important; */
+
         z-index: 999;
         background-color: #f7f6f3;
       }
@@ -53,6 +55,7 @@
         align-items: center;
         margin-top: 2rem;
         margin-bottom: 3rem;
+
       }
 
       #article .top {
@@ -77,6 +80,7 @@
 
       #article section {
         width: 100%;
+
       }
 
       #ifrCtn {
@@ -100,6 +104,7 @@
       <div id="drag"></div>
       <div id="button"></div>
     </nav>
+
     <div id="nav-cover"></div>
     <article id="article">
       <div class="top">
@@ -264,7 +269,8 @@
             )
             console.log(decodeURI(subPage), '<---includes #')
           } else {
-            replaceIframe('./homepage.html')
+replaceIframe('./pages/home.html')
+
           }
         }
         function showNavUl (aTagDom) {
@@ -378,5 +384,12 @@ req.open('GET', './contents.txt')
         navCover.classList.toggle('active')
       })
     </script>
+<!-- <script>
+  nav.addEventListener('wheel', e => {
+    e.stopPropagation()
+    e.preventDefault()
+  })
+</script> -->
+
   </body>
 </html>

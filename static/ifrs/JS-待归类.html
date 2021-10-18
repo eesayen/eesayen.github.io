@@ -1,0 +1,676 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>JS综合笔记 - 待整理</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.highlight-orange {
+	color: rgba(200, 112, 34, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.highlight-yellow {
+	color: rgba(181, 126, 51, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(252, 237, 231, 1);
+}
+.highlight-yellow_background {
+	background: rgba(245, 241, 229, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 1);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.block-color-orange {
+	color: rgba(200, 112, 34, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.block-color-yellow {
+	color: rgba(181, 126, 51, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(252, 237, 231, 1);
+}
+.block-color-yellow_background {
+	background: rgba(245, 241, 229, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 1);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(244, 231, 202, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b172a83f-4481-4d28-af0c-7cd30fe21247" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">📌</span></div><h1 class="page-title">JS综合笔记 - 待整理</h1></header><div class="page-body"><p id="28e96809-a4c5-43f3-89ac-807b0b969b66" class="">
+</p><ul id="94d43d1b-9da1-4dd9-a664-c96ba55f6f18" class="bulleted-list"><li style="list-style-type:disc">数组的forEach循环调用回调函数似乎只能传递三个参数,即 -  <em><strong>值,索引,被循环的数组本身</strong></em> ,而且 该回调函数的定义和调用及调用时的传参似乎都不能干涉</li></ul><ul id="fdc822de-920d-4940-ad32-b83b910d98e4" class="bulleted-list"><li style="list-style-type:disc">因为HTML使用的是双引号, 在JS中为了避免使用HTML实体,可以把双引号改成单引号.</li></ul><ul id="7c94d9b6-73c6-48fe-9bf1-571633c92e45" class="bulleted-list"><li style="list-style-type:disc">try catch 会使得错误静默失败,不会发生JS错误,因为错误在浏览器收到之前就被浏览器拦截</li></ul><ul id="23e6de6e-4fa3-4f4a-8b7d-bff3062e17bf" class="bulleted-list"><li style="list-style-type:disc">JS中对象本身就是键/值得集合体, 但过去,对象的键只能时字符串, ES6以后可以用symbol,  <strong>ES6还提供了map类型,键的部分可以是基本类型, undefined, NaN, null, 与对象</strong></li></ul><ul id="ea75b4ee-fec8-4d03-b852-b57a9fab2715" class="bulleted-list"><li style="list-style-type:disc">对象的valueOf方法, 可以自定义, 在需要基本类型的场合会调用,,例如 将&quot;+,-,*,/,**&quot;运用在字符串意外的类型时. 对于对象必须取得基本类型,字符串的场合,可以自定义对象的toString() 方法</li></ul><ul id="91a4fa47-c238-4a22-b619-027cdb0eb2af" class="bulleted-list"><li style="list-style-type:disc">在面向对象实例中, 对象将相关的状态和功能集合在一起</li></ul><ul id="1e828fac-3c5d-452f-8635-e92e60009774" class="bulleted-list"><li style="list-style-type:disc">ECMAS对 Set 采用SameValueZero演算, <ol type="1" id="cfd926ae-3d45-4976-8f6a-789137d786c0" class="numbered-list" start="1"><li>相等比较采用 ===</li></ol><ol type="1" id="6348872b-e9d1-4ce8-8ce1-01e7884d27a8" class="numbered-list" start="2"><li> 0 等于 -0</li></ol><ol type="1" id="bea19ceb-cacf-4bc5-a717-e38cc29a5482" class="numbered-list" start="3"><li>NaN等于NaN</li></ol><p id="97f6d761-c7d8-4045-bfc9-1eac4c49711f" class="">ECMAS还规范了SameValue演算, 0不等于-0,其余与SameValueZero一致, </p><p id="c3dc9480-3762-40ef-b83e-2975c90372a8" class="">ECMAS对Object.is(), Object.defineProperty()采用SameValue演算</p></li></ul><hr id="f3fdbea3-a065-4985-8b55-a14279e70ec5"/><h3 id="e109bb62-5eef-4668-b30f-7b0728cb02ab" class="">数组的扁平化处理</h3><p id="2eda5c3d-8b89-4cc5-b6b5-d14017a500e3" class="">多维数组转成一维数组<div class="indented"><ol type="1" id="905de200-0a04-404f-af01-9540f921092b" class="numbered-list" start="1"><li>[ ].flat() 方法</li></ol></div></p><ol type="1" id="05d103f9-e4eb-48fd-a86a-73347c1d1c08" class="numbered-list" start="1"><li>函数递归调用 + reduce方法 + concat方法拼接<p id="5b570d4c-8da6-4096-9b0b-f478576ca2de" class="">声明函数传入arr</p><p id="933fe1cb-54e0-4ab0-800b-2f94d0e2f2ee" class="">Arraay.isArray()判读当前元素时候是数组, 是的话返回reduce第一参的拼接, 不是的话递归调用当前函数</p></li></ol><ol type="1" id="463cb1f1-1295-4df0-bb07-2ed8b843700a" class="numbered-list" start="2"><li>数组转字符串在装数组, 其中每个item要从数组字符串转成数组<ul id="1443a381-c57a-4754-9152-62bdae6403eb" class="bulleted-list"><li style="list-style-type:disc">join</li></ul><ul id="d27be288-57a1-42c8-a458-4ac8c6fe214c" class="bulleted-list"><li style="list-style-type:disc">split</li></ul><ul id="1b313666-0011-43e9-8cab-d3177a37a58f" class="bulleted-list"><li style="list-style-type:disc">map</li></ul><ul id="3b0f8a2d-5852-4083-a548-6b803d14d129" class="bulleted-list"><li style="list-style-type:disc">parseInt</li></ul></li></ol><hr id="c9401d3a-c362-425c-8e67-20c654414667"/><p id="250088c8-a3a8-4a57-a224-47d3980ad1ac" class="">
+</p><ul id="c0a39cbf-ed0f-4479-a8b6-31c348cc633d" class="bulleted-list"><li style="list-style-type:disc">函数调用toString( ) <em>可能</em>  可以把函数体转换为字符串, 可打印</li></ul><hr id="41ed083c-2c8a-4821-b36b-a1911c672f9d"/><ul id="e69b4349-3689-4607-9ce2-71ccbec30904" class="bulleted-list"><li style="list-style-type:disc">ES8 → ES2017</li></ul><hr id="789a24cb-8ba9-46d3-8e86-0874fd00fd08"/><h3 id="9ed476e8-28a3-46aa-aed6-b51786edbf09" class="">script标签上的 async 和 defer</h3><ul id="d325fcc6-b06f-4ac6-b4e0-3fa9d4fdf9fe" class="bulleted-list"><li style="list-style-type:disc">内嵌script, 浏览器会暂停页面解析,执行JS</li></ul><ul id="5dee23e0-2ae9-4dfb-abfc-0c2d17b3ea5d" class="bulleted-list"><li style="list-style-type:disc">script标签引入JS, 会同步下载.js文件并且执行</li></ul><ol type="1" id="5b6afe63-67bc-4fbe-a472-a7a0e4df0115" class="numbered-list" start="1"><li>async和defer只有在通过引入src引入JS文件才生效</li></ol><ol type="1" id="757277dd-8cf0-4626-9f20-115d0d9d86cc" class="numbered-list" start="2"><li>async<ol type="a" id="0723a032-cfad-4fdf-8c94-b6f94cdf92d3" class="numbered-list" start="1"><li>会异步下载文件, 一旦下载完成, 页面停止解析,执行完该文件的JS代码,在继续解析</li></ol><ol type="a" id="ddd20c99-aec4-4996-af29-fac4b41583f1" class="numbered-list" start="2"><li>多个async的src引入的JS, 先下载完成的限制性,因此无法控制多个async JS文件执行的顺序</li></ol></li></ol><ol type="1" id="1cf73822-cb3c-4c6b-b1bf-72d016bca86e" class="numbered-list" start="3"><li>defer<ol type="a" id="ce22c9f6-1fa8-4c12-91e6-42a867bb34a0" class="numbered-list" start="1"><li>会异步的下载文件,下载完成后,不会马上执行,会等DOM树正常,其他的所有非 defer 的JS执行完成后才执行</li></ol><ol type="a" id="3e5747fc-6805-4dec-9add-c047e44e9d21" class="numbered-list" start="2"><li>多个defer属性的JS文件,会按页面上出现的顺序执行</li></ol><p id="37c47cf0-354c-46db-8db5-a8938c10d0c9" class="">
+</p><p id="04cc5af5-ace6-48dc-8183-cc4a3e9fefd6" class="">
+</p></li></ol><hr id="73e33d6e-89f6-4ac4-9692-e52baf63cefe"/><p id="1892eee2-c949-4c69-b064-56979244b300" class="">
+</p><h3 id="f96ac7f9-e72f-408e-896d-9a8341b4a51d" class=""><strong>偏函数</strong>: </h3><ul id="b6bc77c6-ea21-452b-9a4b-b143d221b57e" class="bulleted-list"><li style="list-style-type:disc">固定了函数的一个或多个参数, 返回一个新的函数接受剩下的参数</li></ul><p id="59926b66-2219-425a-8dc0-26ec891d164d" class="">
+</p><pre id="bd75c86b-757a-45a6-bc5e-4faac16d41cd" class="code code-wrap"><code>function sum(a,b,c){
+	return a+b+c
+}
+
+function partical(fn,c){
+	return function(a,b){
+		return fn(a,b,c)
+	}
+}
+let particalSum = partial(sum,3);  // 固定了sum函数的第三个参数
+particalSum(1,2);</code></pre><p id="a697e20c-cedf-44c7-977f-1af88df3802b" class="">
+</p><hr id="907eeb35-ff23-4d98-a7fc-d4e0b90a572c"/><p id="9877098d-4d1a-4342-8a5c-826287a77756" class="">
+</p><ul id="8395190c-98f3-43c8-929d-642541368373" class="bulleted-list"><li style="list-style-type:disc">constructor属性也常作为类型检测的依据. 但可以修改</li></ul><ul id="88b33565-4ade-4987-90fa-de090d1f25ab" class="bulleted-list"><li style="list-style-type:disc">事实上,在使用原型链实现继承时,也建议将constructor指向子构造函数</li></ul><ul id="47cf54d7-5bb3-4bb0-adba-c22bee8e5845" class="bulleted-list"><li style="list-style-type:disc">在使用class语法定义子类时,会自动设定constructor属性</li></ul><p id="2f8f407e-f963-4c96-a98c-688096a74855" class="">
+</p><hr id="3a7a875a-98d5-44e3-a562-831924b4f097"/><h3 id="a1b2a1dd-337f-4fb0-b2b8-609d44d893a8" class="">数组的filter方法和map方法</h3><ul id="d853f1eb-c1d1-4a3a-939d-6b640c1427e3" class="bulleted-list"><li style="list-style-type:disc">filter( ) - 方法可能会改变数组的个数—-return后面表达式为true时,返回当前的v,否则不返回</li></ul><ul id="282f8d6b-aba6-46b6-84d4-07e79d45339c" class="bulleted-list"><li style="list-style-type:disc">map( ) - <mark class="highlight-red">不改变数组的个数</mark> ,但可能会改变数组的内部元素 —-return 表达式的值</li></ul><p id="3bdb3c2a-f179-418b-bcf0-364ac9fa5894" class="">
+</p><hr id="f27f7d47-d12c-4ebe-84c8-82502a8a47cc"/><p id="293e24c2-95d4-4695-bedf-073ce266c5de" class="">
+</p><h3 id="70e53d08-58c6-4142-852b-08044c0994ca" class="">JS数据与DOM</h3><ol type="1" id="7b92c4f9-cb13-4cdb-be9d-350f4add0df8" class="numbered-list" start="1"><li>JS对数据的修改反映到DOM<ol type="a" id="90ed6e45-98f5-430f-a072-4a8455589a3c" class="numbered-list" start="1"><li>对象setter函数,对象属性设置时调用,ES5需要借助Object.defineProperty( )</li></ol></li></ol><ol type="1" id="dd45a183-b29c-471f-b761-c538bb55a51f" class="numbered-list" start="2"><li>DOM的改变反映到JS<p id="dff66374-4ed6-46f1-a592-7973bc1e44f6" class="">
+</p><ol type="1" id="d3c7a259-6091-4bec-a8fc-8c38cb245c5b" class="numbered-list" start="1"><li>Object.defineProperty
+   set,get<p id="5339d15c-34e2-4ffd-9ba5-422e1b8184c5" class=""><strong>把dom.attributes当做对象监测集合下的style，当style发生改变的时候触发Set方法内的语句</strong></p><p id="a29e4d91-dc8b-40b3-a127-bc456620ea82" class="">defineProperty监测的目标是对象，Dom元素的属性集合[dom.attributes]也为对象{}。attributes对象是所有的属性集合的对象，style是属性集合里下属的集合，因为style的参数多。</p><p id="8f08df94-63aa-4af3-92b5-c3572601d32f" class="">问题：但是测试的时候，当图片的display的值发生改变时，set无触发，经测试Object.defineProperty无反应。</p></li></ol><ol type="1" id="db197af7-f013-4df5-948b-cc45a953d883" class="numbered-list" start="2"><li>MutationObserver(callback)<ol type="a" id="cd99d44a-afc9-4f63-8348-40f2b703163e" class="numbered-list" start="1"><li>能监听DOM变化,属性节点,文本节点等, 回调函数会自动传入两个参数</li></ol><ol type="a" id="b2501212-cc2a-420a-a6e3-21245fdc7f1b" class="numbered-list" start="2"><li>对于样式的监听,元素上的样式,并且是样式值发生改变时,而非计算后的值发生改变时.</li></ol></li></ol><ol type="1" id="39c47093-6916-4e7b-9bcb-45c042ba4285" class="numbered-list" start="3"><li>DOM修改时 触发了事件,可通过事件处理程序</li></ol><ol type="1" id="12fbb6d1-3344-4b3a-81ed-3fc477a364fa" class="numbered-list" start="4"><li>自定义元素(元素自定义名必须包含一个不在头或尾的连字符)的attributeChangedCallback</li></ol><ol type="1" id="88682224-e41d-4e1c-b0f4-161fe8545a98" class="numbered-list" start="5"><li>设置定时器,不推荐,消耗大</li></ol><p id="f6f6154d-e4c8-45d0-a3d5-bcad03d27f40" class="">
+</p><p id="79bf51a1-0f9e-4502-b842-4fce0452a36f" class="">
+</p><hr id="213af2b3-4e22-4162-b341-f4f495db96f2"/></li></ol><h3 id="bd8317cd-d768-4f5b-ab3c-0a6c9d908a36" class="">箭头函数this指向</h3><ul id="6e57b863-e437-4b0c-8d66-d6cd2216ada4" class="bulleted-list"><li style="list-style-type:disc">箭头函数的this是不可变得, 定义函数的就已经固定了this</li></ul><ul id="a86c7e4d-4d22-4cf9-b245-29c46587665f" class="bulleted-list"><li style="list-style-type:disc">若定义的函数,之后用了apply, call, blind 方法修改器调用时的this, 那么必须用function来定义该函数</li></ul><p id="4055707c-d79f-4026-b3de-3424e143a9b7" class="">
+</p><hr id="e8f2b9bb-a95e-4b1b-9c5b-1780f4e3f21f"/><p id="8afd682a-3262-4f0f-a8cd-14ac2f23d756" class="">
+</p><h3 id="11612399-d2c0-4c03-8634-77efd306a811" class="">new操作符</h3><ol type="1" id="fbb373e6-41af-4272-9bf9-6f1e3b72e9bb" class="numbered-list" start="1"><li>创建一个空对象</li></ol><ol type="1" id="5e3f8dfd-7a3c-4a26-8edd-25543b2312a9" class="numbered-list" start="2"><li>修改性对象的__proto__为构造函数的prototype</li></ol><ol type="1" id="8d4c70a0-e6e6-4f06-8ae3-1be91a0d6b12" class="numbered-list" start="3"><li>传入参数执行构造函数, 并让this指向新对象</li></ol><ol type="1" id="5601b80a-0943-43ac-9c89-f79e0e45a380" class="numbered-list" start="4"><li>返回Obj (null 和 undefined 不处理)</li></ol><pre id="6f439ab2-cb57-47d5-9c40-d49a713f28dc" class="code code-wrap"><code>function _new(fn,...args){
+	const obj=Object.assign(fn.prototype)
+	const ref=fn.apply(obj,args)
+	return ref instanceof Object ? ref : obj
+}</code></pre></div></article></body></html>

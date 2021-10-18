@@ -1,0 +1,696 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>构造函数,原型,类 - JS技术手册,JS前段开发指南</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.highlight-orange {
+	color: rgba(200, 112, 34, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.highlight-yellow {
+	color: rgba(181, 126, 51, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(252, 237, 231, 1);
+}
+.highlight-yellow_background {
+	background: rgba(245, 241, 229, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 1);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.block-color-orange {
+	color: rgba(200, 112, 34, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.block-color-yellow {
+	color: rgba(181, 126, 51, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(252, 237, 231, 1);
+}
+.block-color-yellow_background {
+	background: rgba(245, 241, 229, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 1);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(244, 231, 202, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5fe41164-2252-4df1-951a-39eb89e5acba" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">📮</span></div><h1 class="page-title">构造函数,原型,类 - JS技术手册,JS前段开发指南</h1></header><div class="page-body"><p id="340b1268-7eb5-4f62-8975-2edd78ae0865" class="">
+</p><ol type="1" id="a6adfaae-4974-4ebc-bd4f-e58af2dc7a58" class="numbered-list" start="1"><li>在面向对象实例中, 对象将相关的状态和功能集合在一起</li></ol><ol type="1" id="4a2042f0-c821-4e76-a0d9-f2c760887c1a" class="numbered-list" start="2"><li>银行商务相关简单程序</li></ol><pre id="a26a0ae8-b012-4d94-aa69-0ded3ff06b95" class="code"><code>let acct1={
+	name:&quot;justin&quot;,
+	number:&#x27;1234567&#x27;,
+	balance:1000,
+	toString(){
+		return `${this.name},${this.number},${this.balance}`
+	}
+}
+let acct2={
+	name:&quot;Monica&quot;,
+	number:&#x27;2134567&#x27;,
+	balance:2000,
+	toString(){
+		return `${this.name},${this.number},${this.balance}`
+	}
+}</code></pre><ol type="1" id="14ec1d8e-b5e9-4c31-867c-ce3d0f897b29" class="numbered-list" start="3"><li>建立以上对象,有重复之处, 不如定义函数来封装</li></ol><pre id="ab3d29b1-172b-4068-95a6-be1c75a674eb" class="code"><code>function account(name,number,balance){
+	return{
+		name,
+		number,
+		balance,
+		toString(){
+			return `${this.name},${this.number},${this.balance}`
+		}
+	}
+}
+
+let acct1=account(&#x27;justin&#x27;,&#x27;1234567&#x27;,1000);
+let acct2=account(&#x27;Monica&#x27;,&#x27;2134567&#x27;,2000);</code></pre><ol type="1" id="e89b8e2f-b78e-4c4f-abd8-e486a983f269" class="numbered-list" start="4"><li>不过以上函数传回的对象,实际上是Object的实例, 有没有办法使传回的对象时Account之类的实例.</li></ol><pre id="81b6264c-f47a-4557-a4f2-8b5b5aff5ee2" class="code"><code>function Account(name,number,balances){
+	this.name=name;
+	this.number=number;
+	this.balance=balance;
+	this.toString=()=&gt;{
+		return `${this.name},${this.number},${this.balance}`
+	}
+}
+
+let acct1=new Account(&#x27;justin&#x27;,&#x27;1234567&#x27;,1000);
+let acct2=new Account(&#x27;Monica&#x27;,&#x27;2134567&#x27;,2000);</code></pre><p id="bf32620e-e32f-40bc-9def-6d6f9d5cbd69" class="">new关键字的意义是建立一个对象作为Account的实例, 再执行Account函数定义的流程, 执行完函数内容后,该实例会作为结果返回<div class="indented"><ul id="d4aec02d-3eef-41de-a201-89fe27d5d295" class="bulleted-list"><li style="list-style-type:disc">每个对象都是某构造函数的实例</li></ul></div></p><ol type="1" id="b9949174-14eb-4258-8734-cae84a21e22c" class="numbered-list" start="5"><li>因为函数也是对象, 在构造函数上定义属性和方法, 模拟static</li></ol><ol type="1" id="b58dd62f-334f-436b-a52f-ccf44603e597" class="numbered-list" start="6"><li>私有性 private 模拟, 可通过closure 和 set/get</li></ol><ol type="1" id="550ae803-1ea4-4d87-8d1b-b907102456ae" class="numbered-list" start="7"><li>Object.defineProperty / Object.defineProperties 和 特性描述器</li></ol><ol type="1" id="7cf6adbc-1764-47db-8661-a88cc893d487" class="numbered-list" start="8"><li>在实例之间共享的属性和方法,在构造函数的原型对象上定义</li></ol><ol type="1" id="54551d73-2568-4e38-9546-a8a2ff5fd13f" class="numbered-list" start="9"><li>类语法 - 仍然是基于原型的面向对象<ol type="a" id="04b6ba2b-06a1-4d3a-b103-1a3eef4af249" class="numbered-list" start="1"><li>不同点: 使用class定义的构造函数只能以new来建立实例, 以函数调用方式都会TypeError, 如 .call(...),  .apply(...)</li></ol><ol type="a" id="478316b0-7acd-4577-a2d8-701dae1ce3b4" class="numbered-list" start="2"><li>一些关键字<ol type="i" id="dbc86215-3975-4c7f-9070-1e8fb88e10df" class="numbered-list" start="1"><li>class</li></ol><ol type="i" id="35e20532-1923-4108-9392-db7bfe7c15c1" class="numbered-list" start="2"><li>constructor</li></ol><ol type="i" id="a88ce352-7842-4a97-b774-5d4b15a4b58b" class="numbered-list" start="3"><li>static / static set / static get</li></ol><ol type="i" id="fb80fac4-6801-4255-a41d-da1090dcb4e6" class="numbered-list" start="4"><li>extends</li></ol><ol type="i" id="f06d1bab-4183-47e4-850d-37455c1c2b6b" class="numbered-list" start="5"><li>super</li></ol></li></ol></li></ol><p id="a110bd04-4aa5-4faf-94a5-0a4d34d2c3f5" class="">
+</p><hr id="c7719d8e-04d3-4213-bf8c-04b6d77780a1"/><p id="05d175c4-187a-4347-a843-cd7bad7dab1d" class="">
+</p><p id="4282a1c4-6e87-4541-89cb-b3bb1134d020" class="">
+</p><ol type="1" id="05918d02-ee3b-4b48-9a59-6c6af867f956" class="numbered-list" start="1"><li>可以通过点 . 来访问一个对象, 也可以通过[ ]来访问一个对象,<ul id="d4e4574b-ac12-4bfa-a31c-9284ec9b96b6" class="bulleted-list"><li style="list-style-type:disc">[ ] 功能更强大, 例如: <ul id="da95edf0-748c-4510-84f8-22ab5a980112" class="bulleted-list"><li style="list-style-type:circle">属性名 为一个含有空格的字符串 ,</li></ul><ul id="c3fea735-2cd9-492c-b90f-61f8914c9b98" class="bulleted-list"><li style="list-style-type:circle">或者计算属性名</li></ul></li></ul></li></ol><p id="c0ff2fba-5b34-4faf-8ec9-491a836c07f7" class="">
+</p><ol type="1" id="c4ad418b-9695-4851-8601-1fb4cc0ff2bd" class="numbered-list" start="2"><li>Object.creat( )<ol type="a" id="afcc66d5-7e6c-4cbe-ba5a-0d89c970b383" class="numbered-list" start="1"><li>创建一个新对象，使用现有的对象来提供新创建的对象的__proto__</li></ol><ol type="a" id="019c8f5d-f8e5-43a3-ad9d-8b4212de2480" class="numbered-list" start="2"><li>返回值:在指定原型对象上添加新属性后的对象</li></ol></li></ol><ol type="1" id="558af111-7574-41a5-bba1-18601b7bd72f" class="numbered-list" start="3"><li>Object.assin( )<ol type="a" id="3dee1499-ab76-4ceb-9bf8-51b18b4b4a5c" class="numbered-list" start="1"><li>方法用于将所有可枚举属性的值从一个或多个源对象分配到目标对象。它将返回目标对象。<ol type="i" id="c2b40b8f-fe46-4ae1-ba2d-a3cd75616143" class="numbered-list" start="1"><li>浅拷贝</li></ol><ol type="i" id="4d7166c3-6c88-460f-b0df-fd0726f38d22" class="numbered-list" start="2"><li>同名属性，就会出现覆盖现象</li></ol><ol type="i" id="5da3bc0f-2d93-487c-a6f4-97ca24ef5e34" class="numbered-list" start="3"><li>其他类型的参数，会尝试类型转换</li></ol></li></ol><ol type="a" id="117b957b-0a14-493c-9a89-bd36d617a0e6" class="numbered-list" start="2"><li>常见用途<ul id="ab8a450c-44f5-4193-840d-fe17b67da38b" class="bulleted-list"><li style="list-style-type:disc">为对象添加属性</li></ul><pre id="eac5119d-30ca-495a-975e-0bcba646ec02" class="code"><code>class Point{
+	constructor(x,y){
+		Object.assign(this,{x,y})
+	}
+}</code></pre><ul id="2fa5e3a3-3502-434b-b3c4-6a2d71082a91" class="bulleted-list"><li style="list-style-type:disc"> 为对象添加方法, (方法也是对象,  将方法添加到类的原型对象上,类的实例也会有这个方法)</li></ul><ul id="5e880efe-47a2-4f1a-a37f-5bbadc540d4a" class="bulleted-list"><li style="list-style-type:disc">克隆对象— 根据被克隆对象的原型对象用objCreat创建一个空对象→在通过assign将被克隆对象属性添加到空对象</li></ul><pre id="05bdba64-b521-49c9-88f2-c6761be7e58f" class="code"><code>function clone(origin){
+    //获取origin的原型对象
+    let originProto = Obejct.getPrototypeOf(origin);
+    //根据原型对象，创建新的空对象，再assign
+    return Object.assign(Object.create(originProto),origin);
+}</code></pre><ul id="65aea51f-756b-4421-9822-38cb19c3054c" class="bulleted-list"><li style="list-style-type:disc">为属性指定默认值,\</li></ul><pre id="0c9d2ff2-979b-496c-a734-df3e7844eb93" class="code"><code>Options=Object.assign({},DEFAULTS,Options)//若options指定了值,DEFAULT值就会被覆盖掉</code></pre></li></ol></li></ol><ol type="1" id="b911f3ef-d606-4096-af23-858e766c55f0" class="numbered-list" start="4"><li>Object.getPropertyOf( ) 和 Object.setPropertyOf ( )</li></ol><ol type="1" id="243cfb6f-6d89-4794-8442-65c6a81c30a4" class="numbered-list" start="5"><li>Object.keys() / Object.values( ) / Object.entries(）</li></ol><ol type="1" id="8b0c579d-9178-4420-bb8b-e43218e77003" class="numbered-list" start="6"><li>object.getOwnPropertyNames( )</li></ol><figure id="e6b391d4-c266-4b45-a827-65175e89bd11" class="link-to-page"><a href="%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0,%E5%8E%9F%E5%9E%8B,%E7%B1%BB%20-%20JS%E6%8A%80%E6%9C%AF%E6%89%8B%E5%86%8C,JS%E5%89%8D%E6%AE%B5%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97%205fe4116422524df1951a39eb89e5acba/%E5%8E%9F%E5%9E%8B%E9%93%BE%20-%20%E5%9B%BE%E7%A4%BA%20e6b391d4c2664b45a82765175e89bd11.html"><span class="icon">🌀</span>原型链 - 图示</a></figure></div></article></body></html>

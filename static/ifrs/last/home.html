@@ -1,0 +1,645 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>前端工程化开发 - 1</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="503259b0-4c92-45d9-a42d-6205bff02a29" class="page sans"><header><div class="page-header-icon page-header-icon-with-cover"><span class="icon">⛺</span></div><h1 class="page-title">前端工程化开发 - 1</h1></header><div class="page-body"><p id="eb54665a-bae8-4516-b259-94f5e8f0c8b1" class="">
+</p><p id="fb8fabc3-42ef-4ded-9a96-6818480ab1e3" class="">导言:<div class="indented"><h2 id="86372109-3453-4f7f-8e2e-c25621a87850" class="">手撸HTML, CSS, JS 的时代已经过去</h2><blockquote id="a9d40ed3-247b-4809-b72f-41f798673144" class=""> </blockquote></div></p><hr id="cb2842a0-0181-4c30-bc5e-e30245783d4b"/><p id="bedaf4a8-155d-4b9e-8bb8-ecc77695fcfe" class="">
+</p><h2 id="24ec92db-c818-499d-be4a-b40f19bb5fbc" class="block-color-orange_background">基础 :</h2><ol type="1" id="a5b3e169-093c-4c45-b5d9-4ba308fc2c50" class="numbered-list" start="1"><li>Nodejs 更像一个软件,有安装目录, 打开它的执行文件(window-&gt;exe), 会出现一个命令行窗口 ( CLI -&gt; Command-Line Interface ).<ul id="895e52c4-ae32-4917-8d59-a3ff23af8e84" class="bulleted-list"><li style="list-style-type:disc"><strong>Node是JavaScript语言脱离浏览器的运行环境</strong><ul id="9639cd1d-29ed-4a39-b4bd-99f0d7e0c21f" class="bulleted-list"><li style="list-style-type:circle">所谓“运行环境”有两层意思：<ol type="1" id="3f4409c3-87a3-44df-88bc-c9543eeb4831" class="numbered-list" start="1"><li>首先，JavaScript语言通过Node在操作系统中运行，在这个意义上，Node有点像JavaScript虚拟机；</li></ol><ol type="1" id="4a50f05a-d5c9-49ca-a068-b7de87b8199d" class="numbered-list" start="2"><li>其次，Node提供大量工具库，使得JavaScript语言与操作系统互动（比如读写文件、新建子进程），在这个意义上，Node又是JavaScript的工具库。</li></ol></li></ul></li></ul><ul id="33444a47-0095-4a71-a8ab-3d289eb96fd2" class="bulleted-list"><li style="list-style-type:disc">Node内部采用Google公司的V8引擎，作为JavaScript语言解释器；通过自行开发的libuv库，调用操作系统资源。</li></ul><ul id="6f03cb9b-1b0d-402d-ac0a-42a85aaa51bf" class="bulleted-list"><li style="list-style-type:disc">Node.js 是前端工程化的重要支柱之一</li></ul></li></ol><ol type="1" id="d65b99ae-f4f3-4e13-9b51-835e30c77640" class="numbered-list" start="2"><li><code>node</code>和<code>nodejs</code>就是同一个东西，只是名字不同而已，而<code>npm</code>只是<code>nodejs</code>的一个模块</li></ol><ol type="1" id="1d68d7b1-0fbb-4ecb-898b-959db100579e" class="numbered-list" start="3"><li>NPM (node package manager ) 的作用就是对Node.js依赖的包进行管理 , 也可以理解为用来安装/卸载Node.js需要装的东西<ul id="0aa6d69b-555f-4fe7-89e0-9317c937868e" class="bulleted-list"><li style="list-style-type:disc">传统的HTML,CSS,JS管理太繁杂，模块化就是其中一项成功实践，而npm就是为模块化产生。</li></ul><ul id="7d80430c-97df-4441-ae0a-da6e863c557e" class="bulleted-list"><li style="list-style-type:disc">npm 是 Node.js 官方提供的包管理工具，他已经成了 Node.js 包的标准发布平台，用于 Node.js 包的发布、传播、依赖控制</li></ul></li></ol><ol type="1" id="687bc9ea-f9dd-4d0c-9ee4-53fa3b93eeda" class="numbered-list" start="4"><li>Vue可以当成是NPM所管理的一个包来安装, Vue.JS源码中,只含有JS代码, 不需要依赖NodeJS就可以运行</li></ol><ol type="1" id="6bae425d-beb5-4db1-9ac6-f581a4ed635f" class="numbered-list" start="5"><li>使用<code>webpack</code>跟后台是否用<code>nodejs</code>无关，因为<code>webpack</code>在执行打包压缩的时候是依赖<code>nodejs</code>的，没有<code>nodejs</code>就不能使用<code>webpack</code><ul id="021b097a-2636-456e-a157-9a0f15039eed" class="bulleted-list"><li style="list-style-type:disc">webpack就是把 你通过npm中安装的包 打包成更小的浏览器可读的静态资源</li></ul></li></ol><ol type="1" id="09184b68-109f-4090-9317-98b3e7c65482" class="numbered-list" start="6"><li>vue-cli是一个vue项目的脚手架，可以快速的构建一个vue的基于npm的模块化项目，<strong>vue内部的打包机制其实还是借助webpack；</strong></li></ol><p id="9a9454f0-77e7-4e91-831a-a15ff4c79f85" class="">
+</p><hr id="5d9ab578-36db-4239-803c-d0fa25c50991"/><h1 id="423de8c8-eef0-4007-94d5-8a8133b14337" class="block-color-orange_background">VUE</h1><ul id="bc87340b-2736-4081-aabb-3249650b9b6f" class="bulleted-list"><li style="list-style-type:disc">VUE的核心组成<ol type="1" id="2d79e10f-222f-457d-94d8-92158331f909" class="numbered-list" start="1"><li><strong>声明式数据绑定</strong></li></ol><ol type="1" id="d733e25f-027f-4e68-b34e-0cf37d34c2af" class="numbered-list" start="2"><li><strong>组件化</strong></li></ol></li></ul><ul id="e92be9b6-688c-4b52-a603-9ab5ad01668a" class="bulleted-list"><li style="list-style-type:disc">VUE是渐进的框架,更简单易用,<ul id="aae70dcd-2936-4ccd-856b-6e9f330eab21" class="bulleted-list"><li style="list-style-type:circle">是用一个非常精简和尽可能小的的内核来构建的。但是当构建更复杂的应用的时候，有很多其他的问题需要解决。比如说<ul id="b4a8ca2c-b47e-46b5-950e-5e7df259b309" class="bulleted-list"><li style="list-style-type:square">路由，或者说 怎么处理跨组件通信，怎么样在大型应用程序中共享状态，怎么样来组织样式和各种各样的静态资源</li></ul></li></ul><ul id="4bc57bd2-31b8-4e7d-98a9-fde91b27159d" class="bulleted-list"><li style="list-style-type:circle">=&gt;这样的话我们就还需要更多的构建工具来模块化</li></ul><ul id="1b33d6aa-cacc-4ef5-98d5-c618e5b9d61f" class="bulleted-list"><li style="list-style-type:circle">像 <a href="http://emberjs.com/">Ember</a> 或 <a href="https://angularjs.org/">Angular</a> 这些非常完整的框架，它们就想解决所有可能遇到的这些问题，并把这些功能全都集成到框架中</li></ul><ul id="4714684c-8696-42a3-979c-39b71162d050" class="bulleted-list"><li style="list-style-type:circle">我们还是在逐渐提供一些更多的独立解决方案，比如说路由，状态管理，构建工具链和 CLI</li></ul></li></ul><h2 id="d7053f65-5d36-46f1-aa9f-e497a5dbfa5b" class=""><mark class="highlight-orange">VUE问题整理:</mark></h2><h3 id="c59d256b-2ef2-4b89-aaf8-3dbbc4b46085" class="">vue.js中常说的数据动态绑定是什么？</h3><blockquote id="fc75269f-d9f3-499c-856a-573ea9ba5bcc" class="">就是vue.js会自动响应数据的变化情况，并且根据用户在代码中预先写好的绑定关系，对所有绑定在一起的数据和视图内容都进行修改。而这种绑定关系，在图上是以input 标签的v-model属性来声明的，因此你在别的地方可能也会看到有人粗略的称vue.js为声明式渲染的模版引擎。</blockquote><h3 id="fcb7abe3-82e2-471d-a953-1a75cd94f102" class="">前端中为什么要组件化开发？</h3><blockquote id="5b40613e-8185-40ff-b1ed-61de3ef52a12" class="">a、非组件化开发代码和工作量都非常大</blockquote><h3 id="5d16eadc-7c0a-4c42-9c4c-0202884d4e92" class="">前端中如何进行组件化开发？</h3><blockquote id="cb358b0b-2593-4a32-853f-58bbe59be067" class="">在面向对象编程中，我们可以使用面向对象的思想将各种模块打包成类或者把一个大的业务模块拆分成更多更小的几个类。在面向过程编程中，我们也可以把一些大功能拆分成许多函数，然后分配给不同的人来开发。</blockquote><h2 id="d58ee8bf-4ea4-41b2-8f2a-24b872f11f19" class="">到底该怎么用Vue.js做单页应用开发？</h2><blockquote id="782d418f-202e-4731-bd6e-5e92835dad8c" class="">我的建议是，先把介绍 - vue.js官方文档的基础部分硬着头皮看一遍。除了组件这个小节涉及到了很多晦涩难懂的名词以外，前面几章完全就是把Vue.js当作一个模版引擎来用。</blockquote><h2 id="ddd9b1af-275d-40eb-a8ce-1255e64cb7ab" class="">我在学习Vue.js的时候老是听到Webpack，这是啥？</h2><blockquote id="b6c1316c-f2f5-4a24-ba82-470cc49af939" class=""></blockquote><h2 id="9ca74018-9075-43ae-b411-868bd3fbced5" class="">NPM和Node.js又是什么？它们是什么关系？</h2><blockquote id="e99e33de-aaa8-4519-a436-6e4d98ef3213" class=""></blockquote><h2 id="7df22aa3-1613-4cf7-be2b-2a129fbc9207" class="">Vue-CLI又是啥？</h2><blockquote id="79978fc2-6727-4a7e-a741-e8835deaf987" class="">它是一个vue.js的脚手架工具。说白了就是一个自动帮你生成好项目目录，配置好Webpack，以及各种依赖包的工具，它可以通过</blockquote><h2 id="430d4e1a-4c97-40f6-bf94-7911c9568875" class="">我在很多地方还看到Vuex和Vue-route，它们又是什么？</h2><blockquote id="23e87a39-503f-4c57-90c5-6ab269c00a65" class="">Vuex是vue的一个状态管理器。用于集中管理一个单页应用程序中的各种状态。</blockquote><h2 id="682a2255-a90b-4efd-a891-a1209098cfd6" class="">我还在一些地方看到过Vue-resource和Axios，它们又是什么？</h2><blockquote id="56189f2c-7c07-4ca5-ad5c-621ba16701d5" class="">我们在传统的前后端不分离的开发中，后端直接把数据通过模版引擎拼接进了返回的HTML中。而现在做单页应用程序属于前后端分离开发，那么这个单页应用程序中的数据就得通过ajax的方式获取，也要通过ajax的方式提交到后端。</blockquote><p id="7ba8b3ae-56d5-4e7d-be5e-853aba7aa47a" class="">
+</p><p id="7926d9c6-ac3d-4adf-a4d3-312fc98bf3de" class="">
+</p><hr id="1ad34c28-c396-499a-81d1-424f5ebb3e48"/><p id="edf25a2d-ed06-499f-8614-a57350584b9e" class="">
+</p><h1 id="0ea57841-9301-4f6b-8d25-3712498deeca" class="block-color-orange_background"><mark class="highlight-orange_background"><strong>webpack</strong></mark></h1><ul id="98cd09b4-9e31-4a58-90a9-e91b12293ed7" class="bulleted-list"><li style="list-style-type:disc">webpack是基于nodejs实现的, 即webpack的运行依赖于node的环境</li></ul><ul id="8e86af13-46c9-47ba-9c03-931dbeb4baba" class="bulleted-list"><li style="list-style-type:disc">webpack打包后的web工程，不需要一定在nodejs环境中运行 比如在apache中也可以运行</li></ul><p id="343a747d-ddcc-465d-afed-b728a197a954" class="">
+</p><p id="4be7af31-cffa-401f-87b5-de2ae76c65e3" class="">
+</p><ol type="1" id="178a34fa-1735-40a3-b9b1-bd2c4fdd0ae7" class="numbered-list" start="1"><li> <strong>webpack最佳实践？</strong></li></ol><blockquote id="aa2ad1c2-ac30-447f-8e39-4b2a73315dce" class="">Tobias:使用按需加载。非常简单，效果非常好</blockquote><ol type="1" id="b4fa11ae-63a6-437b-bc04-56af09e423a5" class="numbered-list" start="2"><li><strong>下一个webpack的版本计划有什么功能？</strong></li></ol><blockquote id="f91a22b1-dc82-4925-9abe-bdc5ac5e54d1" class="">Tobias:很多事情都有可能，捡几个重要的说一下吧：</blockquote><ol type="1" id="032a394b-591e-4391-ae48-c9ed58c6e2fe" class="numbered-list" start="3"><li><strong>webpack上手有多难多难。有没有也人跟说这么说过？</strong></li></ol><blockquote id="23dd0b01-12af-416d-bfc5-99fdbe947966" class="">Tobias:因为webpack的概念与其他工具的概念明显不一样，特别是在把Grunt/Gulp迁移到webpack时。任务运行程序的配置是指令式的，描述的是每一步要执行什么任务。而Webpack的配置则是声明式的，就是说不会描述webpack要执行的步骤，而只描述执行这些步骤的方式或执行后的结果是什么样的</blockquote><p id="f0423978-f0ef-4ccf-ad71-e1153084ce52" class="">
+</p></div></article></body></html>

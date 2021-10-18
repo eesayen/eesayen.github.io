@@ -1,0 +1,720 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Meta - programming</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.highlight-orange {
+	color: rgba(200, 112, 34, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.highlight-yellow {
+	color: rgba(181, 126, 51, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(252, 237, 231, 1);
+}
+.highlight-yellow_background {
+	background: rgba(245, 241, 229, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 1);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.block-color-orange {
+	color: rgba(200, 112, 34, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.block-color-yellow {
+	color: rgba(181, 126, 51, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(252, 237, 231, 1);
+}
+.block-color-yellow_background {
+	background: rgba(245, 241, 229, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 1);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(244, 231, 202, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b391bbb6-31b5-4f41-82d8-2998e373aa15" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🏗️</span></div><h1 class="page-title">Meta - programming</h1></header><div class="page-body"><p id="ad99abcb-6ddb-4af4-b56a-448748e41d62" class="">
+</p><hr id="6e9d275a-7d6e-41b0-85b9-ee5e2898e731"/><p id="6857c886-db20-46de-bc0f-beba4c37a049" class="">Meta - programming <div class="indented"><ul id="51a9d230-d02d-42c8-8d17-d035ea0ba086" class="bulleted-list"><li style="list-style-type:disc">可理解为 <strong>与程序设计相关的程序设计 ( programming about programming )</strong></li></ul><ul id="262bba92-4c2a-4aa8-8b94-b0813ead2ee8" class="bulleted-list"><li style="list-style-type:disc">从事的程序设计,会影响另一个程序设计</li></ul><ul id="6a0cdbc1-829b-478a-8b8f-4ed0b010e403" class="bulleted-list"><li style="list-style-type:disc">总结来时,就是 — 查看程序行为, 修改程序行为, 甚至修改语言的默认行为, 可以令程序受到影响的程序设计</li></ul></div></p><p id="54a6983d-026b-4aef-911d-d6c5bc9666d4" class="">
+</p><p id="938adba6-25d4-4a4a-abb9-4195b9899418" class=""><strong>就JS而言</strong>, 例如在程序的某个角落 <div class="indented"><ul id="b5c63277-0689-4031-9fce-235fadc95932" class="bulleted-list"><li style="list-style-type:disc"> 替换对象方法,</li></ul><ul id="eb281373-6a82-4626-a39f-41c85aed81b0" class="bulleted-list"><li style="list-style-type:disc">为对象定义 设值, 取值函数</li></ul><ul id="18260f71-2b01-4d98-b1d2-6725b8eb1e95" class="bulleted-list"><li style="list-style-type:disc">修改对象原型  等等</li></ul></div></p><p id="e847edca-3e77-48a4-98b7-9008926189a7" class="">
+</p><hr id="690f6633-2b70-4672-8984-de9403a73fe8"/><p id="5c7cf456-47e2-431f-82b6-9cc4fe0364c7" class="">
+</p><ul id="52faf0d8-7cbd-4ee2-bcf3-7fbf8b6664f2" class="bulleted-list"><li style="list-style-type:disc">对象特性(属性)检测<pre id="a9155605-77d7-4c06-905a-180de622b09f" class="code code-wrap"><code>//1
+if( Obj[name] )    //不适用于对象属性值本身就是undefined
+
+//2
+if ( typeOf Obj[name] !==&#x27;undefined&#x27;  )  
+
+//3
+name in Obj
+
+//4 以上方法都会基于原型链
+Obj.hasOwnProperty(name) //特性时候存在实例本身</code></pre></li></ul><ul id="e68836d3-5198-4f31-9720-59d5b785a835" class="bulleted-list"><li style="list-style-type:disc">特性顺序<ul id="b5d74df8-a92f-4a97-bd29-b335cd642ac8" class="bulleted-list"><li style="list-style-type:circle">for in 列举的特性顺序, 因不同引擎实现而有所差别</li></ul><ul id="b629525e-abea-4806-98ef-46d0b1217191" class="bulleted-list"><li style="list-style-type:circle">ECMAScript规范了<mark class="highlight-orange"> [OwnPropertyKeys]</mark>, 规范了如何取得自身特性,也定义了顺序<ol type="1" id="9dd86b4b-487f-45be-86aa-82fcea5c82e4" class="numbered-list" start="1"><li>先考虑数字索引, 以数字递增方式取得</li></ol><ol type="1" id="3eddd12f-54e1-47e2-b176-6a41564fb682" class="numbered-list" start="2"><li>被建立顺序</li></ol><ol type="1" id="d773c325-1d08-4ac2-ba50-aaf1f151f3c2" class="numbered-list" start="3"><li>符号被建立顺序</li></ol><p id="f5b713b9-95e3-4125-bfe4-d7df379eb2ef" class="">采用此规范运算的函数有</p><pre id="70e0b2d4-e251-439f-b265-641534468266" class="code code-wrap"><code>Object.getOwnPropertyNames()
+Object.getOwnPropertySymbols()
+Reflect.ownKeys()</code></pre></li></ul><p id="029770bb-e074-446a-8afa-b69605fc1a83" class="">
+</p></li></ul><hr id="690b2c57-dc14-4597-8357-99ee7b2e987f"/><p id="c875df0e-f050-4999-b5cd-88eaebbbf89a" class="">
+</p><p id="d84e7d14-b0f7-4d6a-82d6-1025e091fb4b" class="">ECMAScript规范要求在Object.prototype.toString()调用后,必须传回&#x27;[object class]&#x27; 格式的字符串</p><p id="08fd6d4b-d3d2-46b8-8b2c-cf0d255ec5b6" class="">对于内建标准类型, <div class="indented"><p id="30693d73-a29f-4762-9a41-a89d3443059e" class="">Object → [object object]</p><p id="c45f1e9e-2f33-40bf-90e3-d78bbefded47" class="">数组 → [object Array]</p><p id="5a25b686-89db-48e3-9679-0ad6a36a804c" class="">函数 → [object Function]</p><p id="127330c0-55b6-4d2a-a4f4-83188cd8fe1d" class="">...</p></div></p><p id="45ab22e8-fa13-4262-8b9c-7dc30a39d17d" class="">在ES6以后定义构造函数或类时, 可以定义 <strong>symbol.toStringTag</strong>特性,来决定 &#x27;[object calss]&#x27;格式中 &#x27;class&#x27;的部分</p><pre id="89e1dcbd-cd33-41dc-9ff8-f05872684ea6" class="code code-wrap"><code>//原型链构造函数定义时
+function Foo(value){
+	this.value=value
+}
+
+Foo.prototype[symbol.toStringTag]=&#x27;Foo&#x27;
+
+Object.prototype.toString.call(new Foo()); // -&gt;&#x27;[object foo]&#x27;
+
+//使用类语法时
+class ImmutableList{
+	constructor(){
+	}
+	get [symbol.toStringTag](){
+		return this.constructor.name;
+	}
+}
+
+Object.prototype.toString.call(new ImmutableList())// -&gt;&#x27;[object ImmutableList]&#x27;</code></pre><p id="c943dbd1-fac1-4b3d-be64-f8eb74030525" class="">
+</p><p id="5c228a29-f3dc-4c92-967b-a0c2aa9b6af0" class="">事实上, Array.isArray( ),也是根据内部实现特性[[class]]的值来判断</p><p id="922ba42f-ffe7-41bd-98f0-e04e75ba0811" class="">
+</p><hr id="dfe53ccf-d4b7-414d-807c-0e0adaa7b4fd"/><p id="e3ad629a-93dd-42a9-b187-8eba2236f0c9" class="">
+</p><p id="56b151c0-44e2-49b9-bb40-8021f4c11e91" class="">symbol.species协议指定子类要使用哪个类来创建实例</p><p id="f65e2676-7774-4406-99ee-fb2699d70378" class="">
+</p><hr id="8d95a153-ead5-4919-9038-196a5d8c324d"/><p id="2f105401-6e23-4352-93e2-581a3a65b897" class="">
+</p><h3 id="1e6b14b5-c55b-4541-a0b6-ac9d6e10d3b1" class="">Reflect  和 Proxy</h3><p id="52c08fac-5994-419c-88df-49434860d8fd" class="">
+</p><ol type="1" id="ab232e34-e010-40d1-91f3-b01b4136a709" class="numbered-list" start="1"><li>ECMAscript规范了[[GetPrototypeOf]],[[SetPrototypeOf]],  [[IsExtensible]],等运算, 在实现JavaScript引擎时,这类运算实现为 <strong>引擎的内部方法</strong>, [[OwnPropertyKeys]]也是其中之一</li></ol><ol type="1" id="bfba8880-add5-4cd8-907a-e3dbfe3a264f" class="numbered-list" start="2"><li>ES5时, 可以存取内部方法的API随意的配置为Object 函数,<ol type="a" id="3663061e-7434-4669-a3d4-a16254c95610" class="numbered-list" start="1"><li>ES6以后提供了 Reflect API作为存取内部方法的统一管道,并提供更多控制细节</li></ol><ol type="a" id="7c3dd2aa-f1bf-4568-a8cf-012e1906ed96" class="numbered-list" start="2"><li>也新增Proxy API 提供干涉内部方法的时机点, 与可干涉的 Reflect API 一对一对应</li></ol><ol type="a" id="beec6724-ce13-450a-92bb-16ef941a4358" class="numbered-list" start="3"><li><strong>Proxy实例可捕捉内部方法被操作的时机, 在处理器中, Reflect用来存取内部方法, 两者结合就成了meta-programming的重量级武器</strong></li></ol><p id="d7f54685-9df4-48d7-8709-22ed5d0c2bc3" class="">
+</p><p id="ae3a9517-10b0-4c19-98e8-34b2e5f4a334" class="">ES5时引擎内部的方法API配置为Object函数,ES6后调整并以Reflect作为名称空间</p><pre id="8d89e578-83b7-4057-9676-1a993c40d157" class="code code-wrap"><code>Refelct.getPrototypeOf();
+Reflect.setPrototypeOf();
+Reflect.isExtensible();
+Reflect.preventExtensions();
+Refelct.defineProperty()
+Refelct.getOwnPropertyDescriptor()
+...</code></pre><p id="15262dbc-4c2d-4f57-aea9-3db568b80e58" class="">功能上基本相同, 略微调整在于</p><ul id="966c739c-3c47-4cc9-b49e-81f028409fdf" class="bulleted-list"><li style="list-style-type:disc">Obejct有些对应函数执行后传回对象本身, Reflect传回布尔值</li></ul><ul id="5abcb250-5a32-4610-bb56-65398146ca1b" class="bulleted-list"><li style="list-style-type:disc">Object对应函数target参数若是基本类型,会使用对应类实例来包裹, Reflect此时会抛出TypeError</li></ul><p id="66ab35cd-d07d-4c8c-af0a-94705baf7e4f" class="">
+</p><p id="5f430954-529a-432b-a52f-c6d63905d627" class="">
+</p></li></ol><ol type="1" id="2dd0ca83-0e0b-487f-b238-0d037a8ad32e" class="numbered-list" start="3"><li>ES6以后, 建议使用Reflect的这些方法来取代Object对应的方法, <strong>未来与内部方法存取相关的函数，只会在Reflect上配置</strong>,  例如 <mark class="highlight-yellow">Reflect.ownKeys( )</mark><pre id="4abf2148-3a18-434c-a3ac-b2ac2b8f0bc8" class="code code-wrap"><code>Reflect.ownKeys(regExp.prototype)// 相当于 Object.getOwnPropertyNames()和getOwnPropertySymbols()串接后的清单</code></pre></li></ol><p id="396f7672-2c56-4e18-b472-f829f5c581c1" class="">
+</p><ol type="1" id="7fa9e9b3-2afc-4886-b869-0c6425d95730" class="numbered-list" start="4"><li>控制函数中的this对象, 可以使用函数实例的apply( )和call( ) 方法,精确来说,是使用 Function.prototype上定义的函数, ES6以后, 可以使用 <mark class="highlight-yellow"><strong>Reflect.apply( )</strong></mark></li></ol><ol type="1" id="d93d3ecd-7642-4434-8b3f-6ee9d2dcd542" class="numbered-list" start="5"><li>建立对象时,可以定义取值和设置函数, <strong>既然时函数,其中就可以有this</strong>,如何控制取值和设置中的this对象呢.<ol type="a" id="8d767623-8b20-4eac-a8d3-432d8f7abfae" class="numbered-list" start="1"><li>→ES5时,必须取得特性描述器→从中取得get,set特性,得到函数→运用call( ),apply( )等方法</li></ol><ol type="a" id="7740ee87-e259-4634-9e84-4315774ca252" class="numbered-list" start="2"><li>ES6以后,可以用 Reflect.get( ), Reflect.set( )方法</li></ol><pre id="772e4641-44f6-4a59-8dd9-1793eea0fe2b" class="code code-wrap"><code>let o ={
+	x:10,
+	get doubleX(){
+		return this.x*2;
+	}
+}
+//ES5
+let doubleFn=Object.getOwnPropertyDescriptor(0,doubleX).get
+doubleFn.apply({x:20});// -&gt; 40
+
+//ES6
+Reflect.get(o,doubleX) //-&gt;20
+Reflect.get(o,doubleX,{x:30}) //-&gt;60</code></pre><p id="c8e4dddc-677b-4ced-9e84-150cec0221c7" class="">
+</p><p id="6ec4e464-9072-477d-ab9d-cc43b30399f8" class=""><strong>实际上, Reflect.get( ), Reflect.set( )并非只是在用 取值 设值 函数, Reflect API是用来存取内部方法的管道. Reflect.get( ), Reflect.set( )存取的是 [[GET]], [[SET]] 内部方法. </strong></p><p id="4ca9668b-8108-491d-878b-65f0389b391a" class="">纯粹用来取值也是可以,例如</p><pre id="129915bd-d20c-4ec8-8240-ec83f0e223e3" class="code code-wrap"><code>Reflect.get(Array.prototype,&#x27;forEach&#x27;)//-&gt; [Function:forEach]
+Reflect.get(Array,&#x27;of&#x27;)//-&gt; [Function:of]</code></pre><p id="20bd47af-a64c-458f-a7f3-0bc5ab1f5ca0" class="">
+</p></li></ol><ol type="1" id="11dda921-62f3-4fdb-9ebf-b33588d51c55" class="numbered-list" start="6"><li>运算符 in delete new 对应的Reflect函数<ol type="a" id="c8a66ead-650b-4a72-9086-7de1bf394337" class="numbered-list" start="1"><li> in delete new运算符会使用到内部方法, Reflect有这类运算符对应的函数<ol type="i" id="397e1032-90a0-4e44-9dc2-50c9ca762967" class="numbered-list" start="1"><li>Reflect.has( )</li></ol><ol type="i" id="50c561c7-50ce-4182-8c5e-412dab320ae5" class="numbered-list" start="2"><li>Reflect.deleteProperty( )<ol type="1" id="8dcd0d76-5130-45b9-b347-2942ecc7c967" class="numbered-list" start="1"><li>delete删除失败会传回FALSE,严格模式下会引发 TypeError</li></ol><ol type="1" id="3986ad93-23e3-4213-a336-26b7adcdfe46" class="numbered-list" start="2"><li>Reflect只会传回true or false</li></ol></li></ol><ol type="i" id="bc38e242-45cb-43e2-b7dd-436626349831" class="numbered-list" start="3"><li>Reflect.constructor( )<ol type="1" id="9bd4b2a6-b43a-4076-9396-ce43f3a0e2bf" class="numbered-list" start="1"><li>第一参数:　构造函数　或　类</li></ol><ol type="1" id="fdbce52b-20fa-4c9d-9124-96b2c9551a87" class="numbered-list" start="2"><li>第二参数：数组, 给第一参数传递的参数</li></ol><p id="0e0269fc-e45f-42f1-82be-cf648dcf7ff8" class="">Reflect.constructor( )能做的事情远比 new 多,<mark class="highlight-red_background"> 因为可以指定构造函数中</mark><a href="http://new.target"><mark class="highlight-red_background">new.target</mark></a><mark class="highlight-red_background">的实际构造函数或类,  new.target 代表构造函数 ???  </mark></p><p id="f7e51b4b-65e4-4592-823d-940c5170546b" class="">构造函数的prototype会成为实例的原型</p></li></ol></li></ol><p id="d8423387-f12d-4ec7-850f-760ce71813ef" class="">
+</p></li></ol><ol type="1" id="6e27ffca-1448-453a-b174-c726b7ebc1de" class="numbered-list" start="7"><li>如想对对象特性存取时进行一些操作, 如console.log( ) , <ul id="12324f8b-9862-40db-8bd8-8924a62e17f4" class="bulleted-list"><li style="list-style-type:disc">可以设置取值,设置函数, 但是有两个问题</li></ul><ol type="1" id="d518f778-c33d-4cf4-b716-2b6f48a4caa4" class="numbered-list" start="1"><li>建立对象的控制权可能不在你手上,如链接其他库</li></ol><ol type="1" id="8ed104e1-c5eb-4a76-82a3-26161b0efa92" class="numbered-list" start="2"><li>如果不打算进行操作, 需要去代码里面拿掉,也代表了难以重用</li></ol><p id="c83d787f-4351-4b1e-abb6-a2fc96c761c9" class="">→ 更好的解决 :<div class="indented"><p id="564fef93-c643-46c1-bacd-e09470e523dd" class="">ES6可通过new Proxy(target, handle)建立Proxy实例, 操作时, Proxy实例会捕捉并调用handle 相对应方法</p><p id="0da39deb-6e62-40db-b360-327bd2a529ac" class=""><strong>为做具体控制, Proxy API 经常与 Reflect API搭配使用, Reflect 的方法与 Proxy的不足一对一对应</strong></p></div></p></li></ol><p id="ab128c5c-652b-45cf-8807-2e23a8c31a3c" class="">
+</p><ol type="1" id="a2235438-e205-4f1d-9f68-e4145c57e455" class="numbered-list" start="8"><li>Proxy API来实现代理模式<ol type="a" id="943e78e6-8fbe-42fc-a772-795fe550078b" class="numbered-list" start="1"><li>实现上, 提供代理对象给客户端操作</li></ol><ol type="a" id="3b37ab3c-7af3-4339-beb0-17bb6f22f95b" class="numbered-list" start="2"><li>代理对象与目标对象具有相同的接口</li></ol><ol type="a" id="2488874f-5aa2-457c-90b8-ba9e474d8ad4" class="numbered-list" start="3"><li>代理对象可以单纯的将任务转发给目标对象,或者附加额外的逻辑</li></ol><ul id="87f4cfc9-45d8-4941-a0e4-e57b998797c6" class="bulleted-list"><li style="list-style-type:disc">代理模式的原则是:　客户端对实现不知情，但JS提供一定程度的检测,若明显违反既有协议试图实现代理,会抛出TypeError</li></ul></li></ol><p id="11ea8407-af1b-456d-b1ce-50c63ee83c85" class="">
+</p><ol type="1" id="558bb381-7187-40ba-8e94-daa18db69e30" class="numbered-list" start="9"><li>this指向问题<ol type="a" id="d8b728d6-2ade-4a45-8df8-43c9478b0db4" class="numbered-list" start="1"><li>目标对象方法中有this, 通过Proxy实现时,this默认指向Proxy实例</li></ol><ol type="a" id="01f699e5-79b5-4cc3-ad1f-e0032947ac58" class="numbered-list" start="2"><li>但是用this作为取得另一数据依据时, 要注意,若因this 出现错误, 可以通过bind( )方法将this绑定原来的目标对象</li></ol><p id="2313eaee-f33e-463b-ac1f-618ebbee9544" class="">
+</p></li></ol><ol type="1" id="aa146999-74a6-43ba-9057-d38274379db6" class="numbered-list" start="10"><li> 可撤销的 Proxy实例<ul id="9bfff975-a77a-4474-8f7e-6150bb971e33" class="bulleted-list"><li style="list-style-type:disc">new Proxy实例 →持有实例→持续代理实例</li></ul><ul id="a22643c2-65d8-4340-a367-69c1dcff9011" class="bulleted-list"><li style="list-style-type:disc">使用Proxy.revokable( target obj , handle )函数建立可撤销的实例<p id="a999f400-fde1-411c-9060-ff0b36533169" class="">→返回一个对象,具有<div class="indented"><ul id="856fa813-f135-4d67-9d51-76e64ef475fe" class="bulleted-list"><li style="list-style-type:disc">proxy属性 - 保存了通过new Proxy() 建立的实例</li></ul><ul id="f6c57fdd-c049-492f-b4f6-b7799d34ff2d" class="bulleted-list"><li style="list-style-type:disc">revoke( )方法 - 调用此方法撤销代理</li></ul></div></p><ul id="5a10d7a7-e3e5-4a45-96d5-ef23ffd29496" class="bulleted-list"><li style="list-style-type:circle">调用revoke( )后,在操作proxy属性保存的方法会抛出TpyeError</li></ul></li></ul><p id="a851e4fd-4e10-40c6-b004-5efc5d31caa4" class="">
+</p></li></ol><hr id="85da4416-ea35-4c36-adbf-614055e44d85"/><p id="82b9cda2-6cd9-4d8f-bb44-3cda7a06bb2a" class="">
+</p><p id="fd1378a9-8e40-488f-a492-1a17dbe8a357" class="">补充 - video - BV1ub411k7tA</p><p id="1b03314f-cd30-41cf-8f5e-344658de2a4f" class="">
+</p><ul id="8ac9e21f-08e1-4daf-8dda-8251699f854d" class="bulleted-list"><li style="list-style-type:disc">编写源程序的语言称为元语言 </li></ul><ul id="3d3637b5-cfc4-44dd-bbfc-f5d7e1f8972c" class="bulleted-list"><li style="list-style-type:disc">一门编程语言同时也是自身元语言的能力 称为 &quot;反射&quot; 或  &quot;自反&quot;</li></ul><p id="d7244258-83d2-40c5-8f1a-614021f34ac8" class="">
+</p></div></article></body></html>

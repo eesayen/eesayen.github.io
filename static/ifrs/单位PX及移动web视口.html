@@ -1,0 +1,656 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title> 单位px及移动web视口</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.highlight-orange {
+	color: rgba(200, 112, 34, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.highlight-yellow {
+	color: rgba(181, 126, 51, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(252, 237, 231, 1);
+}
+.highlight-yellow_background {
+	background: rgba(245, 241, 229, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 1);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.block-color-orange {
+	color: rgba(200, 112, 34, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.block-color-yellow {
+	color: rgba(181, 126, 51, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(252, 237, 231, 1);
+}
+.block-color-yellow_background {
+	background: rgba(245, 241, 229, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 1);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(244, 231, 202, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="f73e092f-0a39-4eed-befb-86d56289ab16" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">⏲️</span></div><h1 class="page-title"> 单位px及移动web视口</h1></header><div class="page-body"><p id="73f3a175-7752-4018-9e01-589e29f086d5" class="">
+</p><ul id="137030dc-1ae5-41b4-8297-0e38374f6a25" class="bulleted-list"><li style="list-style-type:disc">物理像素 (点)  (pt) (point)<ul id="654cb740-f73d-49b3-9671-f8229b9c5ad7" class="bulleted-list"><li style="list-style-type:circle">绝对单位</li></ul><ul id="26406b21-d850-4612-8d61-071dcbe8a467" class="bulleted-list"><li style="list-style-type:circle">等于1/72 inch</li></ul><ul id="a19ce779-d74a-4741-b5f9-07c084f86b90" class="bulleted-list"><li style="list-style-type:circle">设备出厂时就固定的, 即屏幕上显示色彩的最小像素点</li></ul></li></ul><p id="193406f9-91cd-42b2-bf5d-a90fe5f3e264" class="">
+</p><ul id="4a826a8c-33e3-4b56-9a13-3a236714f13d" class="bulleted-list"><li style="list-style-type:disc">dpi (dot per inch 印刷设备) / ppi ( pixel per inch 显示设备)<ul id="9abc557a-bb49-4fac-8511-712e791fca62" class="bulleted-list"><li style="list-style-type:circle">都可理解成 像素密度 → 每inch有多少个像素点</li></ul><ul id="6d0a1560-321f-4ce9-931a-7f49a25778d3" class="bulleted-list"><li style="list-style-type:circle">它可衡量显示效果是否会有颗粒感,  颗粒感也与 眼睛与屏幕距离/角度, 像素点间距有关.</li></ul></li></ul><p id="5c5a728b-81ae-42e4-ab95-ccb6172d0869" class="">
+</p><ul id="43f85be3-dd1d-4154-9a4c-021fc3c276cd" class="bulleted-list"><li style="list-style-type:disc">逻辑像素 css像素 (px) (pixel)<ul id="9af9c429-2583-48c1-bc27-a5662f13932c" class="bulleted-list"><li style="list-style-type:circle">相对长度 / 相对单位</li></ul><ul id="46fb97b3-5dc6-4a76-b7d4-e1b3160afcd5" class="bulleted-list"><li style="list-style-type:circle">当dpr为1时,  1 px 等于1个物理像素</li></ul><ul id="d78d6940-6b46-4225-bc8c-19b52a8f1171" class="bulleted-list"><li style="list-style-type:circle">移动设备中时会出现, 1px ≥ 2 (即dpr=2, 3 ...)的情况, 不同厂商差异不一<ol type="1" id="e2089648-ddc0-40e1-b035-37cf2bd2b73b" class="numbered-list" start="1"><li>在设备的尺寸一定是, 增强显示效果减少颗粒感, 提高dpi, 即提高物理像素点</li></ol><ol type="1" id="3419766d-bbca-47a7-b4e1-83a4a1d2cf3b" class="numbered-list" start="2"><li>原本1px等于1个物理像素点设计的内容, 显示出来就会变小</li></ol><ol type="1" id="d38a8e75-529b-45b7-9ab0-2517d9d7faae" class="numbered-list" start="3"><li>所以设备被设置成 用2/3个物理像素来表示1px, 如此, dpr=2/3...</li></ol><ol type="1" id="919710c6-efcf-44aa-b407-390ee4eb615a" class="numbered-list" start="4"><li>px仍是表示一定长度的单位,只是表示的长度不一致了</li></ol></li></ul></li></ul><p id="91341d7f-c7db-4b89-b9ee-5bb3b893df42" class="">
+</p><ul id="dde441a8-c7dc-4feb-8dc0-ee7f99c8cfaa" class="bulleted-list"><li style="list-style-type:disc">dpr (device pixel ratio 设备像素比)<ul id="f07a9435-07ae-4b6f-9c4c-d5ab654da036" class="bulleted-list"><li style="list-style-type:circle">dpr=物理像素点 ÷ 逻辑像素</li></ul><ul id="a68dbd98-31fb-424c-9a43-8aa0d8d47696" class="bulleted-list"><li style="list-style-type:circle">1px的长度会因为dpr的不同而展现不同的长度</li></ul><p id="760e4397-d494-495b-a4ed-62e39f3c0883" class="">
+</p></li></ul><p id="ccbd2bbd-24f8-445f-9730-45284f077f26" class="">
+</p><hr id="146a083d-4954-4f7f-b4a9-b6dd3ff604e3"/><p id="e10e4200-93b3-49d1-bb98-53e5469eb2b5" class="">
+</p><p id="29ca8323-cb0f-4ee2-b6f3-f882dea81292" class="">移动端引入了三个视口概念, 是的移动端网页与移动端浏览窗口宽度不再绝对关联</p><ol type="1" id="f02c6126-f881-48e2-95cd-46f98dac5cf8" class="numbered-list" start="1"><li>布局视口 (layout viewport)<ol type="a" id="70557bcf-18ac-4b53-813a-254cadbaded1" class="numbered-list" start="1"><li>移动设备默认的网页viewport, 980px , 略差异</li></ol></li></ol><ol type="1" id="f3b4929c-763a-41c1-8a32-399cc0572d17" class="numbered-list" start="2"><li>视觉视口 (visual viewport)<ol type="a" id="df1104a0-2acd-46ca-9b1e-1b2af15ce776" class="numbered-list" start="1"><li>浏览器的可视区域,( 移动设备的逻辑像素/Android中pp最小宽度 ) </li></ol></li></ol><ol type="1" id="0d4b36cd-8f93-4505-930a-c2d46398bad9" class="numbered-list" start="3"><li>理想视口 (idea viewport)<ol type="a" id="44c37833-c149-4582-814c-e2da7493e286" class="numbered-list" start="1"><li>让layout viewport等于visual viewport</li></ol><ol type="a" id="d6e976f6-500e-4e26-8358-7fd1a564550e" class="numbered-list" start="2"><li>并无固定尺寸</li></ol></li></ol><hr id="a04e0740-db75-4fdf-b61c-20e115bb6046"/><p id="b96cce0f-14b4-49fd-bf1f-dd52bf313716" class="">
+</p><p id="5a5d8a59-cebc-4c80-b01a-4b952b671c4e" class="">移动设备默认使用layout viewport, 使用 &lt;meta&gt;标签可对此更改<div class="indented"><pre id="9bb47b67-11ea-4cd9-8ecb-901315ee5d98" class="code code-wrap"><code>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</code></pre></div></p><p id="65b2905f-b603-4766-b2ad-14febf7b099a" class="">content中常设置属性:<div class="indented"><ol type="1" id="db773558-892d-4c8f-972f-24dde47fcc4c" class="numbered-list" start="1"><li>width<ol type="a" id="f69455de-fbb4-48be-8976-4215bcc9e7da" class="numbered-list" start="1"><li>设置layout宽度</li></ol></li></ol><ol type="1" id="5efdd174-45b2-4001-a342-2adc19ef592a" class="numbered-list" start="2"><li>initial-scale<ol type="a" id="93a8cdf9-7c74-4175-8e09-038669ce9c9e" class="numbered-list" start="1"><li>页面初始缩放值</li></ol><ol type="a" id="8b7fe6a0-71bd-4917-9be8-9919893200c1" class="numbered-list" start="2"><li>缩放是相对于 idea viewport来缩放的, 即移动端浏览器的宽度,可直接写 <code>initial-scale=1</code> 来设置idea viewport</li></ol><ol type="a" id="1faf99fc-446b-44bd-a496-b1c866b67387" class="numbered-list" start="3"><li>默认layout时, initial-scale= idea viewport / layout viewport(980)</li></ol></li></ol><ol type="1" id="8a3a3df8-86f4-4ed5-b43f-4605b1e0437e" class="numbered-list" start="3"><li>minium-scale, </li></ol><ol type="1" id="3c2c3ea7-e28e-4f35-a523-249a53360996" class="numbered-list" start="4"><li>maximun-scale</li></ol><ol type="1" id="52c89782-b6f1-470f-9242-4944c3a5e6f9" class="numbered-list" start="5"><li>height</li></ol><ol type="1" id="230144e8-83a2-437d-8bc9-53c85f3ee4b5" class="numbered-list" start="6"><li>user-scale</li></ol><p id="87091187-f555-4994-8c8e-9c83d4ce1757" class="">
+</p></div></p><ul id="97286276-8d73-40bc-baa1-a964ad743f6f" class="bulleted-list"><li style="list-style-type:disc">meta viewport 标签只对移动端浏览器生效</li></ul><p id="d6876c22-0ebd-4934-8c85-2c5e1dc34f0a" class="">
+</p><p id="8d78982b-b5a8-44b5-a099-82499691dfc9" class="">
+</p></div></article></body></html>

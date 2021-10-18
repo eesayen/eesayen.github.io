@@ -1,0 +1,648 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>vue 归纳</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.highlight-orange {
+	color: rgba(200, 112, 34, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.highlight-yellow {
+	color: rgba(181, 126, 51, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(252, 237, 231, 1);
+}
+.highlight-yellow_background {
+	background: rgba(245, 241, 229, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 1);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.block-color-orange {
+	color: rgba(200, 112, 34, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.block-color-yellow {
+	color: rgba(181, 126, 51, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(252, 237, 231, 1);
+}
+.block-color-yellow_background {
+	background: rgba(245, 241, 229, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 1);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(244, 231, 202, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c4423555-d391-4b1c-9681-f0196df5d402" class="page sans"><header><h1 class="page-title">vue 归纳</h1></header><div class="page-body"><hr id="5bd3328d-78c8-4400-b23c-d30a93ebbd66"/><p id="76e8092d-ff1a-486a-82e4-17686c9106bc" class="">
+</p><p id="e3d3b1bf-4926-4787-9f1a-1537d89dc35a" class="">
+</p><ol type="1" id="ccabf33e-5dd8-4514-9ea9-329d0961667f" class="numbered-list" start="1"><li><mark class="highlight-red_background">与 HTML ( 页面 ) 进行交互</mark><ol type="a" id="068ef735-c70f-4316-aff6-f3ca112ab4ab" class="numbered-list" start="1"><li>{{ }}</li></ol><ol type="a" id="5d9fc2d7-581f-4925-993e-1b328e332bdc" class="numbered-list" start="2"><li>v-bind  &amp; v-model</li></ol><ol type="a" id="5e0cd176-c4e8-4f64-913a-d94597d14008" class="numbered-list" start="3"><li>v-text &amp; v-html &amp; v-once &amp; v-pre</li></ol><ol type="a" id="31f0b709-537b-44db-a011-49cb72761262" class="numbered-list" start="4"><li>自定义指令<ol type="i" id="15a7a60f-93c2-45a5-b26b-8267b68fe534" class="numbered-list" start="1"><li>函数式</li></ol><ol type="i" id="d97724d8-7393-455d-93e8-ba4734ce4bc2" class="numbered-list" start="2"><li>对象式</li></ol></li></ol><ol type="a" id="61c25ffc-42e4-49d9-8633-472b223f06dc" class="numbered-list" start="5"><li>插槽 &lt;slot&gt;</li></ol><ol type="a" id="5fe8efb7-99e0-450a-9e14-c5d335b76206" class="numbered-list" start="6"><li>vue内置的 动画和过度</li></ol></li></ol><ol type="1" id="0a3b69de-1964-46ae-b422-8b1ae30df23d" class="numbered-list" start="2"><li>动态添加HTML元素<ol type="a" id="3d6be647-c891-412e-a960-72220e8dabaa" class="numbered-list" start="1"><li>条件渲染<ol type="i" id="ccf9beee-dd87-4279-af92-d03167bcba16" class="numbered-list" start="1"><li>v-if</li></ol><ol type="i" id="005280cb-c3fe-4f2f-aeca-c2a2ae53d4d6" class="numbered-list" start="2"><li>v-for</li></ol></li></ol><ol type="a" id="f2ffd19b-6f3e-4457-bac1-5633c8887ada" class="numbered-list" start="2"><li>列表渲染 - 多个相似元素循环添加<ol type="i" id="c8c5d68a-1451-4271-97b1-df306f087194" class="numbered-list" start="1"><li>v-for</li></ol></li></ol></li></ol><ol type="1" id="8341fb1c-6a52-44fb-8a0b-6d2f8d57f3dc" class="numbered-list" start="3"><li>给元素添加样式<ol type="a" id="7c917d8e-a208-46e4-b90e-83eeb5226867" class="numbered-list" start="1"><li>class</li></ol><ol type="a" id="3d39922e-0268-4fe6-9e82-41ca4050f06e" class="numbered-list" start="2"><li>style</li></ol><ol type="a" id="22dd972c-4432-4ad4-b28b-ef5e4401ebca" class="numbered-list" start="3"><li>组件中Style标签Scoped属性</li></ol></li></ol><ol type="1" id="202a2544-4cee-4d74-abcb-8f064bc40a7f" class="numbered-list" start="4"><li>事件</li></ol><ol type="1" id="2354f0ac-87cf-4437-98d9-1a143a872a29" class="numbered-list" start="5"><li><mark class="highlight-red_background">vue中数据处理</mark><ol type="a" id="a6b4dcf7-b82e-4b25-a662-451cca8eae22" class="numbered-list" start="1"><li>每个vue实例,组件实例都有data属性中被设置了getter和setter 的对应属性名</li></ol><ol type="a" id="b9b00e33-8947-420f-bfef-bcc0db0236e1" class="numbered-list" start="2"><li>开发中,data属性有对象形式和函数形式, 组件式开发,必须写成函数形式return一个对象</li></ol></li></ol><ol type="1" id="b5badcbe-c303-4d30-8225-c357fcde5ec3" class="numbered-list" start="6"><li>对数据加工的API<ol type="a" id="e2b814cd-fbe2-49e9-8aa1-157c4a99f8d0" class="numbered-list" start="1"><li>computed<ol type="i" id="e71dffae-5758-4838-b4ea-ee8cf3741f7c" class="numbered-list" start="1"><li>完整形式: 计算属性名 为对象, 里面有getter和setter函数</li></ol><ol type="i" id="1bf0ec71-3480-4d95-a5d3-90a139bf87eb" class="numbered-list" start="2"><li>简写形式, 只有get情况, 名为计算属性名的函数  —&gt;一般情况下,计算属性就需要get功能</li></ol><ol type="i" id="7de91eb3-35c5-4dfa-8cbe-f138e4a5746e" class="numbered-list" start="3"><li>computed 相对 method 具有缓存功能, <ol type="1" id="3fef3913-83f2-443e-a6f9-06d62abdcf57" class="numbered-list" start="1"><li> 1. 初次计算和 2, 计算所依赖的数据发生改变时 ,→重新生成缓存,其他时候从缓存取.</li></ol><ol type="1" id="b546401f-4972-4e4e-b7b7-7b5649ecf460" class="numbered-list" start="2"><li>method 每次都会执行函数</li></ol></li></ol><ol type="i" id="d9fae405-5eb4-40dc-9f99-9f7470f7c1b5" class="numbered-list" start="4"><li>是通过 return 返回计算的值</li></ol></li></ol><ol type="a" id="7e93ab06-f72d-47e4-aaa0-789af5a7e8ae" class="numbered-list" start="2"><li>watch<ol type="i" id="50aec8c8-788d-4036-a415-448a3141af59" class="numbered-list" start="1"><li>对象名为 监视属性名</li></ol><ol type="i" id="e5399015-be38-4e7e-98b0-c2b57b8599a2" class="numbered-list" start="2"><li>监视的数据类型是对象,要用 deep</li></ol><ol type="i" id="b7d80f33-4a7c-4722-9d17-23289d9dfdc0" class="numbered-list" start="3"><li>immediate配置,立即执行</li></ol><ol type="i" id="400e3fcd-ae35-41a5-b9c1-766ed399d22e" class="numbered-list" start="4"><li>handle函数为执行的操作</li></ol><ol type="i" id="485d4199-bb93-4547-ab57-d661d803b03a" class="numbered-list" start="5"><li>简写形式: 只有handle, 不需要配置,  监视属性名直接写成函数</li></ol><ol type="i" id="9c8dfec2-c491-41b1-a4bc-3e26cb23dd42" class="numbered-list" start="6"><li>监视的是 已有的数据, 即函数名要为已有的属性名(data和computed中都可以), 当被监视的数据改变,就执行函数, 函数中对属性值进行操作</li></ol></li></ol><ol type="a" id="7176b62d-f665-47d2-b7d8-e676f3c28f88" class="numbered-list" start="3"><li>computed和watch对比<ol type="i" id="69daeeda-22b7-469c-849a-ba2895b6a629" class="numbered-list" start="1"><li>computed更方便和符合规范</li></ol><ol type="i" id="fff4ee98-5b24-4fa9-9dc3-2a335f6b892a" class="numbered-list" start="2"><li>watch更灵活,能实现更复杂更能, 因为computed必须依靠return, 且不能执行异步操作</li></ol></li></ol><ol type="a" id="a88242f5-e555-4524-9cc8-9cbfad7181ca" class="numbered-list" start="4"><li>filter</li></ol></li></ol><ol type="1" id="50572eb6-8e8c-4e13-9cc0-e74e91029cd9" class="numbered-list" start="7"><li>HTML中表单数据的收集</li></ol><ol type="1" id="c2223111-fb78-4499-8ee0-686c594700ae" class="numbered-list" start="8"><li><mark class="highlight-red_background">VUE的生命周期钩子</mark><ol type="a" id="3d9f68b6-3afd-48e5-bbb0-6eab057a52b9" class="numbered-list" start="1"><li>总体→8个</li></ol></li></ol><ol type="1" id="b42f0135-131a-4e0b-a328-331076bc6ae2" class="numbered-list" start="9"><li> <mark class="highlight-red_background">组件式开发</mark><ol type="a" id="14282aa1-be1b-413b-a948-3a9a61574672" class="numbered-list" start="1"><li>组件理解: 用来实现局部特定功能的代码和资源集合(包含HTML,css,js)</li></ol><ol type="a" id="0969e12c-1409-4f60-9a86-fcb2433466fb" class="numbered-list" start="2"><li>组件 &amp; VueComponent构造函数</li></ol><ol type="a" id="dfb8c4c2-3059-428a-bbdd-a31cde0230be" class="numbered-list" start="3"><li>组件分两种: 普通组件 和 路由组件</li></ol></li></ol><ol type="1" id="f2f4095f-f515-4503-a8a7-4754eac21cd1" class="numbered-list" start="10"><li>组件嵌套<ol type="a" id="d5faa0e7-1814-4d84-94c7-21a7dba16271" class="numbered-list" start="1"><li>components注册体现</li></ol></li></ol><ol type="1" id="f73c4b3c-7ddc-4e40-a07f-2f18f7fa6acf" class="numbered-list" start="11"><li>mixin </li></ol><ol type="1" id="af3a5519-916f-424c-985d-c118c6819c11" class="numbered-list" start="12"><li>组件通信(传递数据)<ol type="a" id="73407e12-a8ed-4ad9-a256-759ffb20e3da" class="numbered-list" start="1"><li>props</li></ol><ol type="a" id="95546c19-bd1d-4374-87f3-83b174a47b3e" class="numbered-list" start="2"><li>自定义事件 &amp; 全局事件总线</li></ol><ol type="a" id="348ba315-2261-49fe-8e85-0dbd31fcc078" class="numbered-list" start="3"><li>路由传参</li></ol><ol type="a" id="6977174a-916f-45ec-8acc-6ac15879d955" class="numbered-list" start="4"><li>消息订阅和发布</li></ol></li></ol><ol type="1" id="205ed567-732d-434b-9c02-3c9335cf189e" class="numbered-list" start="13"><li>插件的使用<ol type="a" id="91dd8f5d-48b4-40fb-a051-e57cd80f9e4e" class="numbered-list" start="1"><li>对vue增加一些全局功能,  用于增强vue</li></ol><ol type="a" id="d31bcd12-e484-4959-ba64-b578b407000a" class="numbered-list" start="2"><li>用法<ol type="i" id="fb45add2-50fc-4a29-8e8b-5e180e909149" class="numbered-list" start="1"><li>新建一个js文件(plugins.js), 暴露一个含有 install 方法的对象,  install 方法中收到的第一个参数是 Vue构造函数, 往后是use是的传参</li></ol><ol type="i" id="a7b62630-cb4b-47c8-97c9-1be8ef7ef1a9" class="numbered-list" start="2"><li>在需要用的组件中, import 上面文件后, 在Vue.use( ) 使用插件</li></ol></li></ol></li></ol><ol type="1" id="90ae59b3-8aec-40a4-953d-cb000aca988b" class="numbered-list" start="14"><li><mark class="highlight-red_background">使用Vue开发&quot;必用&quot;插件</mark><ol type="a" id="1d950baf-bf58-4709-9bb6-583f463bb91a" class="numbered-list" start="1"><li>Vuex → vue团队开发→状态管理器, 有点像在ue中使用数据库</li></ol><ol type="a" id="43a203f5-cc60-47b4-9ba0-907d0b0b345e" class="numbered-list" start="2"><li>无法持久化、内部内心原理是通过创造一个全局实例 new Vue</li></ol></li></ol><ol type="1" id="10089537-269a-4bf0-84ee-c40637c2c2ad" class="numbered-list" start="15"><li>Vue-router → vue团队发开<ol type="a" id="bdc31e2e-88bd-4fba-9422-91318e9cd8cc" class="numbered-list" start="1"><li>一个应用有一个路由器就够了,不用很多个</li></ol><ol type="a" id="978f7712-c9a3-4f3e-8f80-e7b8725b3876" class="numbered-list" start="2"><li>router-link 点击后样式<ol type="i" id="161efe9e-b793-4c79-922b-0648fd7f576e" class="numbered-list" start="1"><li>在路由中配置项中设置linkActiveClass</li></ol><ol type="i" id="5b1a3861-87c5-47b0-8704-e31632dfe09e" class="numbered-list" start="2"><li>或者 在每个 router-link 标签加active-class属性 </li></ol></li></ol><ol type="a" id="310b54eb-c29d-44f2-8f5e-ff8b18c21dcf" class="numbered-list" start="3"><li>路由组件(pages/views)一般和普通组件放在不同的文件夹</li></ol><ol type="a" id="5f75a1fd-6f0b-444b-a81e-351937c3ce3d" class="numbered-list" start="4"><li>正常情况下, 切换路由组件时,之前的路由组件是被销毁, 新的路由组件被挂载</li></ol><ol type="a" id="125adef6-d241-46c9-b87d-b83510de56f7" class="numbered-list" start="5"><li>组件上多了$route(每个组件有自己的), $router(同一个)</li></ol><ol type="a" id="ef5f38a4-e688-42cc-8c1e-e31428d012d3" class="numbered-list" start="6"><li>路由传参<ol type="a" id="3ba03972-85d7-4a2a-8a5f-04fff2a66a23" class="numbered-list" start="1"><li>query参数</li></ol><ol type="a" id="fb0eba99-a145-444e-976d-3a0f84a7e631" class="numbered-list" start="2"><li>param参数<ol type="a" id="381cce71-bc15-44d2-8572-2c8ed861559f" class="numbered-list" start="1"><li>会维护好url,且对active-class生效</li></ol></li></ol></li></ol></li></ol><ol type="1" id="8d8854c5-c81c-4456-b4f9-1b7be08c7b3d" class="numbered-list" start="16"><li>axios → vue团队推荐, promise风格的ajax请求</li></ol><ol type="1" id="ac261b23-565b-4471-be26-b283979201a4" class="numbered-list" start="17"><li>Element-ui</li></ol><ol type="1" id="6a39be17-b976-46b4-90ce-7e2a8caf4c37" class="numbered-list" start="18"><li>vue-cli &amp; vue-cli-server 相关<ol type="a" id="15c558ab-4731-4b96-ae3c-8e50f8ff3d99" class="numbered-list" start="1"><li>脚手架中编写import引入,即使中间插入了执行代码,import都会汇总到最上方先执行 </li></ol><ol type="a" id="0a5a3daa-6def-4f2b-860a-7ed733479042" class="numbered-list" start="2"><li>脚手架配置代理,解决开发中跨域问题, <ol type="i" id="7518dbe2-0253-4f1e-9a64-01e1d5b810aa" class="numbered-list" start="1"><li>服务器与服务器之间通信不存在跨域问题</li></ol></li></ol></li></ol><p id="c6f9cdb0-b9f0-41f4-bac2-926dbb42d6e2" class="">
+</p></div></article></body></html>

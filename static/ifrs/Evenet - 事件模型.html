@@ -1,0 +1,664 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Event - 事件模型 </title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.highlight-orange {
+	color: rgba(200, 112, 34, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.highlight-yellow {
+	color: rgba(181, 126, 51, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(252, 237, 231, 1);
+}
+.highlight-yellow_background {
+	background: rgba(245, 241, 229, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 1);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.block-color-orange {
+	color: rgba(200, 112, 34, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.block-color-yellow {
+	color: rgba(181, 126, 51, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(252, 237, 231, 1);
+}
+.block-color-yellow_background {
+	background: rgba(245, 241, 229, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 1);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(244, 231, 202, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="994361bb-27e4-486c-9a40-e161b98f2b1e" class="page sans"><header><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🗂️</span></div><h1 class="page-title">Event - 事件模型 </h1></header><div class="page-body"><p id="6bc22bda-c3aa-46a5-8ea0-e6ddef3738f6" class="">
+</p><h1 id="aebef664-c182-48f8-a100-9f4255b319d3" class="">Event - 事件机制</h1><hr id="0efd9d66-24b9-4a0e-8455-311edb7907ff"/><ul id="28b120a1-06aa-4855-9373-f46b4d043c6f" class="bulleted-list"><li style="list-style-type:disc">有些事件触发时会有默认动作, 例如:<p id="d2031d06-201c-4cad-87aa-dcd224ad6321" class="">→窗体的submit事件默认会发送窗体后换页</p><p id="ef9f24fc-1fb2-47f6-8231-41b0eb6c41ff" class="">→超链接, click事件默认会链接至指定网页</p><p id="cd27fdbf-067a-4c90-bf73-de8b2c377e19" class=""><strong>可以取消默认事件动作 — return false, 或者 标准事件模型的preventDefalut()</strong></p></li></ul><ul id="5a22b807-2703-4f93-8a9b-b32d09b98594" class="bulleted-list"><li style="list-style-type:disc">事件模型在DOM Level2时获得了标准化, 又称为 <strong>标准事件模型</strong>, 允许事件设置多个事件处理器, 使用addEventListener( )方法</li></ul><ul id="9745210f-729c-4bcd-a0ad-6228fcafb6ab" class="bulleted-list"><li style="list-style-type:disc">基本事件模型中,事件处理器的this来取得触发事件的元素, 标准事件模型中,建议可以从event实例的 <strong>currentTarget</strong>特性来取得 <strong>当前触发事件的元素</strong></li></ul><ul id="26942420-43ad-46ce-a381-2aab1fdd0e2b" class="bulleted-list"><li style="list-style-type:disc">移除事件,使用removeEventListener</li></ul><hr id="b6f6579e-4559-4f15-87eb-f29b74b449e5"/><h3 id="5746198f-d108-4695-aabc-c945bc82d721" class="">标准事件传播</h3><ul id="8296a2db-19e5-4511-90e8-0386a40c45f9" class="bulleted-list"><li style="list-style-type:disc">标准事件发生时, Event实例会收集事件的相关信息, Event实例会作为事件处理器的第一个参数</li></ul><ul id="068cd6a9-33e1-4373-8408-d1c30df70682" class="bulleted-list"><li style="list-style-type:disc"><a href="http://event.target/">Event.target</a> 可以取得要操作的目标对象</li></ul><ul id="d5c4d994-7a28-4e71-b704-01c124c14c65" class="bulleted-list"><li style="list-style-type:disc">标准事件模型中, 操作时如发生事件,事件不仅会触发操作的目标元素,还会往目标元素父阶层传播并触发事件, 若父阶层也设定了对应的事件处理器就会调用 — 不仅元素本身会调用,外层div和body也依序调用, 这样的行为叫做 <strong>事件的冒泡传播</strong><p id="17d90be7-f5a8-45e8-aee1-cc01a6ddde98" class="">若要停止冒泡事件传播, 必须调用 Event实例的 stopPropagation( ) 方法</p><ul id="98ad2da9-7302-4367-9dff-136509533090" class="bulleted-list"><li style="list-style-type:circle">许多场合可以通过事件传播,减轻每个元素持有事件处理器的负担</li></ul></li></ul><ul id="09f26f5d-845f-4447-b651-d3f500635621" class="bulleted-list"><li style="list-style-type:disc">标准事件模型中, 事件其实会经历两个传播阶段,<ol type="1" id="d4b634d9-50eb-450c-a74e-0cb6541d2e57" class="numbered-list" start="1"><li>当事件发生时, 先从document传播至要操作的目标元素,这个阶段称为 <strong>捕获阶段</strong></li></ol><ol type="1" id="e7c9b2b4-64c0-4404-8b5a-0f944878f71e" class="numbered-list" start="2"><li>接着事件再从要操作的目标元素传播至document, 这个阶段称为 <strong>冒泡阶段</strong></li></ol></li></ul><ul id="a6d35558-57f2-458c-a4bc-8a6548acc10f" class="bulleted-list"><li style="list-style-type:disc">addEventListener 第三个参数可以是一个对象,也可以是一个Boolean值<ul id="3b1238d3-4347-4d7b-8a15-8a7bdeb2e25f" class="bulleted-list"><li style="list-style-type:circle">默认为一个boolean值 false</li></ul><pre id="6fde4462-fadc-4a1b-b0f7-bc2cd66f6cc4" class="code code-wrap"><code>[options:{
+    capture: boolean, // 当options设置一个值时,为此值,默认false --&gt; true表示handle在捕获阶段执行,false表示在冒泡阶段执行
+    once : boolean, //表示handle是否执行一次, 默认false -&gt; true为执行一次
+    passive : boolean // 默认为false, 表示是否忽略掉preventDefalut(),-&gt;true 为忽略
+}]</code></pre></li></ul><ul id="10b8661a-ed8c-4613-ad95-507deadf21c9" class="bulleted-list"><li style="list-style-type:disc">自定义事件<p id="7be5b512-3290-4c34-9761-3ebc2963bf10" class="">通过事件构造函数Event实例化</p><pre id="c55878df-0b7e-4a4b-8ea7-ad32c91534e1" class="code code-wrap"><code>let event_build=new Event(&#x27;build&#x27;);
+element.addEventListener(&quot;build&quot;,hundle);
+//手动调用被监听元素的dispatchEvent以触发事件
+element.dispatch(event_build)</code></pre><ul id="c8d545ec-4549-4a5e-8ef4-188245839688" class="bulleted-list"><li style="list-style-type:circle">对事件对象添加数据,可通过构造函数CustomEvent实现</li></ul></li></ul><hr id="2453b3c1-b28f-4343-b1f6-76bfce6dedb9"/><p id="e93de1ec-2907-4298-a432-71b6d5ed97ab" class="">
+</p><hr id="c1cdff50-4b7b-436e-8aae-dcfcd5fa1bb6"/><h2 id="8c94dd2c-2f4c-4f65-9a38-db4afa5eea39" class="">补充 - video BV1yt4y197vp</h2><p id="ff21ee5d-4c72-4988-b2c6-6e5f27a40580" class="">
+</p><ul id="5d51a2df-e812-4f9b-9831-1bb58c1c1e2f" class="bulleted-list"><li style="list-style-type:disc">JS代码中,只能执行捕获或者冒泡其中一个阶段</li></ul><ul id="428ebdf7-a61f-4f95-a56e-ef51d687867a" class="bulleted-list"><li style="list-style-type:disc"><del>onclick</del> 和 attachEvent 只能得到冒泡阶段</li></ul><ul id="ccfce618-9605-4ec6-aeab-935135b42ad3" class="bulleted-list"><li style="list-style-type:disc">有些事件是没有冒泡,例如: onfocus onblur onmouseenter onmouseleave</li></ul><ul id="b9fcd531-3040-439b-b9f4-f73258b2d1bc" class="bulleted-list"><li style="list-style-type:disc">实际开发中,很少使用事件捕获,更多关注事件冒泡</li></ul><div><p id="3a498929-e5c7-4ba2-b2e2-cc75244c3771" class="">
+</p></div><hr id="afe05bec-9488-45f4-a4ea-4bdd04ae742c"/><p id="11e2c75b-7000-4de1-a7a6-8e4ae8148dab" class="">
+</p><h2 id="fce79c8d-0615-4c64-be66-8327bb5eca1d" class="block-color-yellow_background">补充 - 高级程序设计</h2><p id="cdcc0b2f-fcd9-4349-b81a-fa4ed97c2b2d" class="">
+</p><ul id="f17cfbc5-5188-4ef6-b3c6-75a65b6baee6" class="bulleted-list"><li style="list-style-type:disc">事件捕获实际是为了事件到达最终目标前拦截事件,     <p id="ec713d28-79b0-48f5-bb93-10d1beb933ab" class="">实际当中几乎不会使用事件捕获,通常建议使用事件冒泡, 特殊情况下可以使用事件捕获</p></li></ul><ul id="ac6fb785-3e16-4875-9830-c0f1c25adb8b" class="bulleted-list"><li style="list-style-type:disc">DOM2 Events 规定事件流分为三个阶段  <ol type="1" id="f259bc3d-f50e-4c45-9a72-23741f24304b" class="numbered-list" start="1"><li>事件捕获</li></ol><ol type="1" id="61c6fae9-b371-440b-a1ea-99efffa8f1e3" class="numbered-list" start="2"><li>到达目标</li></ol><ol type="1" id="dc47bf96-c9fc-4870-b631-55389779a646" class="numbered-list" start="3"><li>事件冒泡</li></ol><p id="a0614f68-0925-43f4-9e5c-3219058defb8" class="">虽然DOM2 Events明确规范 <strong>捕获阶段不会命中事件目标, 但现代浏览器都会在捕获阶段在事件目标上触发事件</strong>, <strong>最终结果是事件目标上有两个机会来处理事件</strong></p></li></ul><ul id="f2a145ad-f811-442c-a6de-aa7cde93365c" class="bulleted-list"><li style="list-style-type:disc">事件意味着用户或浏览器执行某种动作，比如：单击（click），加载（load），鼠标悬停，（mouseover），</li></ul><ul id="a61082db-960f-44eb-80e8-0f6975f0379a" class="bulleted-list"><li style="list-style-type:disc">为响应事件调用的 <strong>函数</strong> 称为　<strong>事件处理程序</strong>或者 <strong>事件监听器</strong></li></ul><hr id="037c0615-b3f9-46d0-b3b5-0beddb4c6db3"/><h3 id="417e508c-3388-4eda-bc8b-074de4ed3d81" class="block-color-yellow">事件处理程序</h3><ol type="1" id="2167d62d-9735-4272-b274-a351234f5828" class="numbered-list" start="1"><li>HTML事件处理程序<ol type="a" id="d7921772-75a6-4729-bed5-a23101b23d88" class="numbered-list" start="1"><li>事件处理程序的名字 以HTML属性的形式来指定，属性值必须是能够执行的JS代码</li></ol><ol type="a" id="275c9d03-6835-4bd3-a0d4-d8a70ad5116e" class="numbered-list" start="2"><li>以这种方式指定的事件处理程序有一些特殊的地方，首先会创建一个函数来封装属性的值，这个函数有一个特殊局部变量event，里面保存的就是Event事件对象</li></ol><ol type="a" id="133e4cac-6e40-4ac4-8690-bc19c2c82182" class="numbered-list" start="3"><li>在这个函数中,this相当于目标元素</li></ol><ol type="a" id="85a69cbb-064c-49e9-ab1c-7dd7c6e01ad9" class="numbered-list" start="4"><li>其作用域链被扩展, 在这个函数中,document和元素自身成员都可以被当做局部变量来访问, <strong>通过with</strong>实现的, 这样,事件处理程序,不必引用它当中的是元素,可以直接访问其中的成员</li></ol><p id="1460882b-d1ec-44c2-9606-2a13fb061e35" class="">不足之处: HTML和JS强耦合</p></li></ol><ol type="1" id="fc9d3aad-5538-4290-8764-9235bf9d0313" class="numbered-list" start="2"><li>DOM0 事件处理程序<ol type="a" id="7f1f2e7b-5d6b-4f5c-a093-a46331886ea3" class="numbered-list" start="1"><li>DOM0 方式为事件处理程序赋值时,所赋值函数视为元素的方法, 事件处理程序会在元素作用域中运行,即this等于元素</li></ol><ol type="a" id="df900995-8b9b-485a-8abd-00b09802c1d5" class="numbered-list" start="2"><li>this可以访问任何元素的属性和方法</li></ol><ol type="a" id="80159910-1b0b-4c81-9ac6-76a4a30a05d1" class="numbered-list" start="3"><li>注册在事件流的冒泡阶段</li></ol><ol type="a" id="90103539-0fb1-4e73-a19f-83211e00a9e1" class="numbered-list" start="4"><li>事件处理程序属性值设置为null, 可移除DOM0 和 HTML 方式添加的事件处理程序</li></ol></li></ol><ol type="1" id="fd6f98a1-e4c0-498b-931f-a0e50a1a26d3" class="numbered-list" start="3"><li>DOM2 事件处理程序<ol type="a" id="ac448b4c-c19f-46d8-b12b-8f8b9b61089a" class="numbered-list" start="1"><li>定义了两个方法- addEventListener 和 removeEventListener</li></ol><ol type="a" id="0afa3939-12c9-40ed-893f-0a6000e13e71" class="numbered-list" start="2"><li>多个事件处理程序以添加顺序来触发</li></ol><ol type="a" id="0e1b9840-64f0-4cb1-8220-2640210bb86b" class="numbered-list" start="3"><li>addEventListener添加的匿名函数无法移除</li></ol></li></ol><ol type="1" id="e73061a1-89a2-4c4f-bac9-d2992e3d94a6" class="numbered-list" start="4"><li>IE 事件处理程序<ol type="a" id="0f058e78-92f4-4ea3-bcd7-475890e4f726" class="numbered-list" start="1"><li>attachEvent和detachEvent   — 两个参数, 加on,  click→onclick</li></ol><ol type="a" id="5e2c1631-62a0-4017-87d2-fba7401c4508" class="numbered-list" start="2"><li>会添加到冒泡阶段</li></ol><ol type="a" id="5cf97be9-feeb-4896-aec3-d9b72fac8feb" class="numbered-list" start="3"><li>事件处理程序在全局作用域中运行, this等于window, 通过事件对象取得触发元素</li></ol><ol type="a" id="ca648bcc-4992-42fd-9daf-3329c83c7840" class="numbered-list" start="4"><li>多个以添加他们的顺序方向触发</li></ol><p id="e2721f73-123d-4c86-9113-d3e129dd2e7e" class="">
+</p></li></ol><ol type="1" id="ee1c26ba-2e97-4a23-bdc0-eb26cdcd4754" class="numbered-list" start="5"><li>根据以上封装程跨浏览器事件处理程序<ol type="a" id="e25b9407-5878-41fb-a293-0f61451c717e" class="numbered-list" start="1"><li>主要依赖能力检测</li></ol><ol type="a" id="98892fa1-a590-42d3-a761-47108c4a0ce2" class="numbered-list" start="2"><li>只需要让代码在冒泡阶段运行</li></ol></li></ol><h3 id="0b10477a-b5ad-4e8f-9530-2ea20079aca8" class="block-color-yellow">事件对象 Event</h3><p id="58ee301a-7906-4b9f-8db4-7a7d21fb5350" class="">在DOM中发生事件时,所有相关信息都会被收集并储存在一个名为Event的对象中, 所有浏览器都支持这个event对象</p><p id="0800820c-b6c0-4598-9ad3-576bb3635ef4" class="">在DOM合规的浏览器中,event对象时传给事件处理程序唯一的参数</p><ul id="001717db-a707-49ee-b036-94f74ff69a7c" class="bulleted-list"><li style="list-style-type:disc">在事件处理程序内部, this对象始终等于currentTarget的值, 而Target只包含事件的实际目标</li></ul><ul id="5fe3b9b9-44f4-4247-9c6e-9dcdde3c9456" class="bulleted-list"><li style="list-style-type:disc">type属性在一个处理程序处理多个事件时很有用</li></ul><ul id="972c4ae5-7ec2-41a6-8262-6c12f81fab7d" class="bulleted-list"><li style="list-style-type:disc">eventphase属性用于确定事件流当前所处的阶段</li></ul><ul id="8807ddc6-928e-4a90-aaa2-ad7e026d0588" class="bulleted-list"><li style="list-style-type:disc">通过preventDefault()取消默认新闻的事件, 其对象的cancelable都会设置成true</li></ul><p id="54f1a9b3-db62-4a24-93fb-86a25e6918f9" class="">Event对象只在事件处理程序执行期间存在,一旦执行完毕,就销毁</p><p id="194d84ea-0ad0-48db-bb69-63c5403f1a5e" class="">
+</p><p id="d2e106c9-a553-42d0-9231-d4dc38720b9e" class="">IE事件对象基于事件处理程序被指定的方式以不同方式来访问</p><p id="cdee1bcb-53dd-441e-a7ea-e7d155b567c0" class="">DOM0 - Event对象时window的一个属性</p><p id="f8993456-b036-4a55-94be-f53122fae856" class="">attacheEvent - event对象会作为唯一参数传递给处理函数 srcElement替代this, 因为处理函数在全局作用域下运行,this不指向被触发的元素</p><h3 id="48bb71d8-3357-46e4-bba7-6ee9331c010b" class="">事件类型</h3><ol type="1" id="4189b113-821b-4e75-9d4a-ff66617fc538" class="numbered-list" start="1"><li>用户界面事件（UIEvent）<p id="7a712c5c-16c7-41a2-bd7d-7c6baa259846" class=""><strong>UIEvent不一定和用户操作有关</strong></p><p id="a32b2058-043c-4e44-83de-433f840be709" class="">UIEvent主要有以下几种</p><ol type="1" id="d6f8988f-c02f-481f-99af-6512527953ae" class="numbered-list" start="1"><li>DOMActivate －<strong>DOM3 已废弃，不建议使用</strong>。 元素被用户通过鼠标或键盘操作时触发，比click和keydown更通用</li></ol><ol type="1" id="85ac6979-bafe-4aa5-bb86-3073a30c7a92" class="numbered-list" start="2"><li>load - 在window上页面加载完成后触发，&lt;img&gt;上图片加载完成后触发， &lt;object&gt;元素上，当相对应的对象加载完成后触发</li></ol><ol type="1" id="a8cef85a-58e0-489a-9229-902fe4192f21" class="block-color-red numbered-list" start="3"><li>unload - 在window上页面卸载完成后触发，&lt;object&gt;上，当相对应对象卸载完成后触发<p id="41df2fff-f132-4c0a-8b20-af0d8320e7a2" class="">一般一个页面导航到另一个页面触发,最常用于清理引用,避免内存泄漏</p></li></ol><ol type="1" id="801825d3-1e1c-44de-a649-7d9d859570e2" class="numbered-list" start="4"><li>abort - 在&lt;object&gt;元素上，当相对应元素在还没有加载完成前被用户提前终止下载触发</li></ol><ol type="1" id="95b2b550-e6c7-4e36-9056-8ba5dfe182a1" class="numbered-list" start="5"><li>error - 在window上, JS报错时触发, &lt;img&gt;无法加载图片触发, &lt;object&gt;无法加载相对应对象触发</li></ol><ol type="1" id="11d0f477-ea2b-4857-b3d1-9869ba39d2d9" class="numbered-list" start="6"><li>select - 文本框,(input, textarea), 当用户选择一个或多个字符时触发<ol type="a" id="37846975-3a1a-4b33-a16a-00865bbc8b46" class="numbered-list" start="1"><li>浏览器窗口最大化,最小化也会触发</li></ol></li></ol><ol type="1" id="b0cd0cee-ffa4-46e8-a25f-5f38a92d0d38" class="numbered-list" start="7"><li>resize  - 当窗口被缩放时触发</li></ol><ol type="1" id="ce98b130-a895-475a-af24-c570eb73a8f1" class="numbered-list" start="8"><li>scroll - 滚动包含滚动条的元素咋元素上触发</li></ol></li></ol><ol type="1" id="487563f1-7962-4e71-a37a-c391ff015a67" class="numbered-list" start="2"><li>焦点事件 （FocusEvent）</li></ol><ol type="1" id="67fdf236-9c82-468a-9073-7581c18e866b" class="numbered-list" start="3"><li>鼠标事件 （MouseEvent）<p id="3996a9ed-a927-423b-99c2-faa4057cc4ae" class="">由于事件之间存在联系, 取消鼠标默认事件,也会影响其他事件, click和dbclick触发前都依赖其他事件出发</p><ul id="682dc0b5-77eb-49d2-98c4-d045c8321627" class="bulleted-list"><li style="list-style-type:disc">客户端坐标 - 浏览器视口位置  (clientX/clientY)</li></ul><ul id="d616f523-c897-4747-88d4-006be1f21510" class="bulleted-list"><li style="list-style-type:disc">页面坐标 - pageX/pageY , 反映的是光标到页面而非视口左边和上边的距离, 页面没有滚动时: pageX===clientX , pageY===clientY</li></ul><ul id="ceb1e994-6298-41d1-97f1-2911d8197d88" class="bulleted-list"><li style="list-style-type:disc">屏幕坐标 - screenX/screenY , 鼠标事件不仅在浏览器中发生,也在这个屏幕上发生</li></ul><ul id="cc011afd-d78e-4f59-94e9-e6e8a1aa5bb4" class="bulleted-list"><li style="list-style-type:disc">IE 额外提供了 offsetX/offsetY</li></ul><p id="231bf34f-60ac-4bbc-b266-6db5d149437d" class="">
+</p><p id="a97b136a-5e72-4db8-9785-3b16152ef30a" class="">触摸屏设备</p><ul id="325350c7-457d-4b6e-9f05-93bffdde705d" class="bulleted-list"><li style="list-style-type:disc">不支持dbclick, 双击浏览器窗口可以放大,无法覆盖这个行为</li></ul><ul id="bf3d0c92-8ec4-4c99-81a6-b687ddff01c1" class="bulleted-list"><li style="list-style-type:disc">双击屏幕滑动触发mousewheel和scroll</li></ul></li></ol><ol type="1" id="f6025897-3e0a-4c72-a082-74da60671b33" class="numbered-list" start="4"><li>滚轮，输入，键盘，合成 . . . 等事件</li></ol><p id="10a1b117-521b-43f3-8d28-4ef01df5ff6e" class="">
+</p><h3 id="254953ab-1b8c-44ae-9c87-5821b5d04c5e" class="">DOM规划并未涵盖浏览器支持的所有事件, HTML5中得到浏览器较好支持的事件</h3><ol type="1" id="71e09ed3-8725-46eb-8ee4-93b46dc321d1" class="numbered-list" start="1"><li>contextmenu</li></ol><ol type="1" id="9b00fe50-57dc-4362-969c-4685e6990eb7" class="numbered-list" start="2"><li>beforeunload - 给开发者提供阻止页面被卸载的机会</li></ol><ol type="1" id="cd076d82-73cf-4278-9b90-325e332293a2" class="numbered-list" start="3"><li>DOMContentLoaded - DOM树构建完成后</li></ol><ol type="1" id="935f8b9c-3f22-4c06-9f34-82d30d8388b3" class="numbered-list" start="4"><li>readystatechange - 提供稳定或元素加载的状态信息, 支持readystatechange 事件的每个对象都有一个readystate属性</li></ol><ol type="1" id="9d4b4813-fca7-46cd-9969-d4d2f78a26b1" class="numbered-list" start="5"><li>pageshow和pagehide</li></ol><ol type="1" id="7878ca8c-5aba-43ee-aae7-7733f1a1684e" class="numbered-list" start="6"><li>hashchange - 用于ULR散列值(url最后#后面的部分) , 必须添加给window</li></ol><p id="4c9ad0b9-d99b-436a-932f-7170f25ea281" class="">
+</p><h3 id="61c1bb6f-2e17-4e6c-b866-a8c871b3e317" class="">设备事件</h3><ol type="1" id="47cf1ef1-c8c4-4ded-a6b8-455eab2f1467" class="numbered-list" start="1"><li>orientactionchange</li></ol><ol type="1" id="5a2f5a28-8a4a-4999-b6ef-706ab9aaebd7" class="numbered-list" start="2"><li>deviceorientchange</li></ol><ol type="1" id="ad32eb0a-53c8-4a43-b021-cd6c7eacce84" class="numbered-list" start="3"><li>devicemotion</li></ol><ol type="1" id="d8d32c0b-4413-4941-8f78-a8e52fda0abf" class="numbered-list" start="4"><li>触摸及手势<ol type="a" id="5b640cb9-3388-4e87-be58-9f8a230b9585" class="numbered-list" start="1"><li>touchstart</li></ol><ol type="a" id="cf7fde80-8359-4c51-9e4b-f7b529f7d40e" class="numbered-list" start="2"><li>touchmove</li></ol><ol type="a" id="86dff1b5-359f-4714-b703-c3a96b7427b0" class="numbered-list" start="3"><li>touchend</li></ol><ol type="a" id="6532f232-e557-4b77-8528-f677f141712b" class="numbered-list" start="4"><li>gesturestart</li></ol><ol type="a" id="f9fa86ef-7253-4d2a-a0ed-1871763fc31b" class="numbered-list" start="5"><li>gesturechange</li></ol><ol type="a" id="e8242be2-7283-43bc-b551-d6eda3016188" class="numbered-list" start="6"><li>gestureend</li></ol><p id="6e7c66da-723b-4ed5-a9d9-8dd2dd1ada9e" class="">
+</p></li></ol></div></article></body></html>
